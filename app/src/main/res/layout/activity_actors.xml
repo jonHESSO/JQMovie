@@ -6,4 +6,37 @@
     android:layout_height="match_parent"
     tools:context="com.jqmovie.jqmovie.Actors">
 
+    
+
+    <GridView
+        android:id="@+id/actorgrid"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:numColumns="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/texts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="List of Actors"
+        android:textAlignment="center"
+        android:textSize="25dp" />
+    <SearchView
+        android:id="@+id/search"
+        android:layout_width="362dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Here"
+        app:layout_constraintTop_toBottomOf="@+id/texts"/>
+
 </android.support.constraint.ConstraintLayout>
