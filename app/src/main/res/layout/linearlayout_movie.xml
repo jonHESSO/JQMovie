@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="3dp"
+    tools:ignore="ExtraText">
+    android:gravity="center">
+
+
+
+    <ImageView
+        android:id="@+id/movie_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="250px"
+        android:maxWidth="250px"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/dicaprio"
+        />
+
+    <TextView
+        android:layout_below="@+id/movie_images"
+        android:id="@+id/movie_texts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leonardo DiCarpaccio"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+
+</LinearLayout>
