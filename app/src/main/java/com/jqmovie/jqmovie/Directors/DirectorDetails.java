@@ -1,13 +1,15 @@
-package com.jqmovie.jqmovie;
+package com.jqmovie.jqmovie.Directors;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MovieEdit extends AppCompatActivity {
+import com.jqmovie.jqmovie.R;
+
+public class DirectorDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_edit);
+        setContentView(R.layout.activity_director_details);
     }
 }

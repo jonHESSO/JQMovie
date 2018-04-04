@@ -24,7 +24,7 @@
         android:layout_below="@+id/movie_images"
         android:id="@+id/movie_texts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="130px"
         android:text="Leonardo DiCarpaccio"
         android:textAlignment="center"
         android:textSize="18dp"

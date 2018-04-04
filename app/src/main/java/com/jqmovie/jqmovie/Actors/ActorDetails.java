@@ -1,13 +1,15 @@
-package com.jqmovie.jqmovie;
+package com.jqmovie.jqmovie.Actors;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class DirectorDetails extends AppCompatActivity {
+import com.jqmovie.jqmovie.R;
+
+public class ActorDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_director_details);
+        setContentView(R.layout.activity_actor_details);
     }
 }

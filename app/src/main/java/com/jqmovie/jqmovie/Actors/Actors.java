@@ -1,10 +1,10 @@
-package com.jqmovie.jqmovie;
+package com.jqmovie.jqmovie.Actors;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.jqmovie.jqmovie.R;
 
 public class Actors extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class Actors extends AppCompatActivity {
             "Burstyn",
             "Caine",
             "Chastain",
-            "Damon",
+            "Matt Damon",
             "Leoanardo DiCapaccio",
             "Tom Hanks",
             "Hathaway",

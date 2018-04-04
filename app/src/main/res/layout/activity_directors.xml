@@ -4,6 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jqmovie.jqmovie.Directors">
+    tools:context="com.jqmovie.jqmovie.Directors.Directors">
+
+    <GridView
+        android:id="@+id/directorgrid"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:numColumns="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/directorsearch"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/directortexts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="List of Directors"
+        android:textAlignment="center"
+        android:textSize="25dp" />
+    <SearchView
+        android:id="@+id/directorsearch"
+        android:layout_width="362dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Here"
+        app:layout_constraintTop_toBottomOf="@+id/directortexts"/>
 
 </android.support.constraint.ConstraintLayout>

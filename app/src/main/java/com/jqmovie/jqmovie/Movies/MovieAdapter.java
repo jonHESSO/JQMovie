@@ -1,4 +1,4 @@
-package com.jqmovie.jqmovie;
+package com.jqmovie.jqmovie.Movies;
 
 
 import android.content.Context;
@@ -10,17 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActorAdapter extends BaseAdapter {
+import com.jqmovie.jqmovie.R;
+
+public class MovieAdapter extends BaseAdapter {
 
     String [] result;
     Context context;
     int [] imageId;
     private static LayoutInflater inflater=null;
-    public ActorAdapter(Actors actors, String[] actorList, int[] actorImages) {
+    public MovieAdapter(Movies movies, String[] movieList, int[] movieImages) {
         // TODO Auto-generated constructor stub
-        result=actorList;
-        context=actors;
-        imageId=actorImages;
+        result=movieList;
+        context=movies;
+        imageId=movieImages;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -46,21 +48,21 @@ public class ActorAdapter extends BaseAdapter {
 
     public class Holder
     {
-        TextView actor_text;
-        ImageView actor_img;
+        TextView movie_text;
+        ImageView movie_img;
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        MovieAdapter.Holder holder=new MovieAdapter.Holder();
         View rowView;
 
         rowView = inflater.inflate(R.layout.linearlayout_movie, null);
-        holder.actor_text =(TextView) rowView.findViewById(R.id.movie_texts);
-        holder.actor_img =(ImageView) rowView.findViewById(R.id.movie_images);
+        holder.movie_text =(TextView) rowView.findViewById(R.id.movie_texts);
+        holder.movie_img =(ImageView) rowView.findViewById(R.id.movie_images);
 
-        holder.actor_text.setText(result[position]);
-        holder.actor_img.setImageResource(imageId[position]);
+        holder.movie_text.setText(result[position]);
+        holder.movie_img.setImageResource(imageId[position]);
 
         rowView.setOnClickListener(new View.OnClickListener() {
 
