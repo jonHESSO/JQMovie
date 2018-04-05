@@ -2,10 +2,21 @@
     <string name="app_name">JQMovie</string>
     <string name="Year">Year</string>
     <string name="Genre">Genre</string>
-    <string name="firstName">First name</string>
-    <string name="lastName">Last name</string>
+    <string name="firstName">Firstname</string>
+    <string name="lastName">Lastname</string>
     <string name="birthdate">Birthdate</string>
     <string name="submit">Submit</string>
     <string name="title_activity_main">ShowActivity</string>
-    <string name="nan">NaN</string>
+    <string name="biography">Biography</string>
+    <string name="movies">Movies</string>
+    <string name="director">Director</string>
+    <string name="actors">Actors</string>
+    <string name="btnmovie">Choice movies</string>
+    <string name="btndirector">Choice director</string>
+    <string name="btnactor">Choice actors</string>
+    <string name="nameMovie">Name</string>
+    <string name="genre">Genre</string>
+    <string name="year">Year</string>
+    <string name="synopsis">Synopsis</string>
+
 </resources>

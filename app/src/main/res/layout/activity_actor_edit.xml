@@ -7,60 +7,163 @@
     tools:context="com.jqmovie.jqmovie.Actors.ActorEdit">
 
     <TextView
-        android:id="@+id/actor_firstname"
+        android:id="@+id/txt_firstname_actor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/firstName"
         android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/firstname"
+        android:id="@+id/edit_firstname_actor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/firstName"
-        app:layout_constraintTop_toBottomOf="@+id/actor_firstname"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_firstname_actor"
         tools:ignore="MissingConstraints">
 
         <requestFocus />
     </EditText>
 
     <TextView
-        android:id="@+id/actor_lastname"
+        android:id="@+id/txt_lastname_actor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/lastName"
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/firstname"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_firstname_actor"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/et_lastname"
+        android:id="@+id/edit_lastname_actor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:hint="@string/lastName"
-        app:layout_constraintTop_toBottomOf="@+id/actor_lastname"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="372dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_lastname_actor"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txt_birthdate_actor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/birthdate"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_lastname_actor"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/edit_birthdate_actor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/birthdate"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_birthdate_actor"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txt_movies_actor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/movies"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_birthdate_actor"
         tools:ignore="MissingConstraints" />
 
 
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_addmovie_actor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/btnmovie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_movies_actor" />
+
+
+    <TextView
+        android:id="@+id/txt_bio_actor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="464dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/biography"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addmovie_actor"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn_submit_actor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/edit_biography_actor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:hint="@string/biography"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit_actor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_bio_actor" />
+
 
 </android.support.constraint.ConstraintLayout>
