@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="List of Directors"
+        android:text="@string/listdirectors"
         android:textAlignment="center"
         android:textSize="25dp" />
     <SearchView
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Here"
+        android:queryHint="@string/search"
         app:layout_constraintTop_toBottomOf="@+id/directortexts"/>
 
 </android.support.constraint.ConstraintLayout>

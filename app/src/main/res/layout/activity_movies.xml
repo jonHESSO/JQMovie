@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="List of Movies"
+        android:text="@string/listmovies"
         android:textAlignment="center"
         android:textSize="25dp" />
     <SearchView
@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.785"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp"
-        android:queryHint="Search Here"
+        android:queryHint="@string/search"
         android:iconifiedByDefault="false"
         app:layout_constraintTop_toBottomOf="@+id/movietexts"/>
 

@@ -18,5 +18,10 @@
     <string name="genre">Genre</string>
     <string name="year">Year</string>
     <string name="synopsis">Synopsis</string>
+    <string name="listactors">List of actors</string>
+    <string name="listdirectors">List of directors</string>
+    <string name="listmovies">List of movies</string>
+    <string name="search">Search here</string>
+
 
 </resources>
