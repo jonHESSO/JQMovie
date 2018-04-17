@@ -9,16 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Movies.MovieEdit">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".Movies.MovieEdit" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Movies.Movies" />
-        <activity android:name=".Actors.Actors" />
-        <activity android:name=".Movies.MovieDetails" />
+        <activity android:name=".Actors.Actors">
+        </activity>
+        <activity android:name=".Movies.MovieDetails" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
         <activity android:name=".Directors.Directors" />
         <activity android:name=".Directors.DirectorDetails" />
         <activity android:name=".Directors.DirectorEdit" />

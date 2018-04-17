@@ -127,8 +127,10 @@
             android:text="Lorem ipsum dolor sit amet, mel illum nonumy facilisis ne, pericula patrioque consequat ex vix, pri primis posidonium mediocritatem te. Id falli delectus appellantur quo, vidit senserit consectetuer nam ea. Eu pertinax appellantur pro, solum viris vitae per at. Novum tempor impetus id vis, vis eu facer appetere prodesset.  Clita quando ut duo, clita perfecto reprimique ea pri. No tation mnesarchum vel. Vis enim luptatum volutpat ea, qui suas prompta voluptua eu. Pri elitr docendi no. Has ad nobis corpora.  Iriure salutandi reformidans duo ex, vix munere dolorum nonumes et. Id sea utamur contentiones, ad eum modo admodum perpetua. Et malis movet mei, vocent complectitur cum cu. Pro quodsi electram ei, pro posse malis eligendi ea, idque constituto philosophia eum ex. Eum doctus maiestatis in, dicant graece eruditi nam no.  Eam dicit ancillae verterem at. Id usu hinc justo nonumy. Vis justo nulla soleat an. Id verear appareat usu, regione delectus definitionem ea vel, et pro brute delectus philosophia. Feugiat legimus et has. Usu no omnis rebum, id mel dicunt saperet maluisset, et nam quod suas affert. Putant accusata consequat ea eos.  Nec vidit ocurreret ei, agam appellantur ut ius. Eum summo viderer eu. Dicat ullum bonorum id vix. Saepe munere adipiscing ut cum. Vix ut amet natum regione."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </android.support.constraint.ConstraintLayout>

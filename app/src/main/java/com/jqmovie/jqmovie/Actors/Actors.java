@@ -21,7 +21,7 @@ public class Actors extends AppCompatActivity {
             "Hathaway",
             "Irwin",
             "McConaughey",
-            "Kate Winslet",
+            "Kate Winslet"
     };
     public static int[] actorImages = {
             R.mipmap.burns,
