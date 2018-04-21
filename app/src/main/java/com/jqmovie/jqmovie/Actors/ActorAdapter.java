@@ -2,6 +2,7 @@ package com.jqmovie.jqmovie.Actors;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,11 @@ public class ActorAdapter extends BaseAdapter {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, ActorDetails.class);
+                intent.putExtra("Name", result[position]);
+
+                context.startActivity(intent);
             }
         });
 

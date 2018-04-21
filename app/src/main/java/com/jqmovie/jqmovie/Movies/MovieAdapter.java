@@ -2,6 +2,7 @@ package com.jqmovie.jqmovie.Movies;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jqmovie.jqmovie.Actors.ActorDetails;
 import com.jqmovie.jqmovie.R;
 
 public class MovieAdapter extends BaseAdapter {
@@ -70,6 +72,11 @@ public class MovieAdapter extends BaseAdapter {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, MovieDetails.class);
+                intent.putExtra("Title", result[position]);
+
+                context.startActivity(intent);
             }
         });
 
