@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -26,4 +32,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // Android Architecture Components
+    implementation "android.arch.lifecycle:extensions:$arc_comp_lifecycle_version"
+    implementation "android.arch.persistence.room:runtime:$arc_comp_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$arc_comp_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$arc_comp_version"
 }

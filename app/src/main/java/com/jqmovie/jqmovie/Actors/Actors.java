@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Actor;
+
+import java.util.List;
 
 public class Actors extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -53,7 +58,19 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
 
         //création du gridLayout
         gridview = (GridView) findViewById(R.id.actorgrid);
-        gridview.setAdapter(new ActorAdapter(this, actorList, actorImages));
+        /*gridview.setAdapter(new ActorAdapter(this, actorList, actorImages));*/
+        AppDatabase db = AppDatabase.getAppDatabase(this) ;
+
+        Toast.makeText(this, "Database connected", Toast.LENGTH_SHORT).show();
+
+        //db.actorDAO().insert(new Actor(3,"jon", "lemon", "1991","funny boy", R.mipmap.actors));
+
+        List<Actor> testlist = db.actorDAO().getAll() ;
+
+        Toast.makeText(this, "Jon added", Toast.LENGTH_SHORT).show();
+
+
+        gridview.setAdapter(new ActorAdapter(this, testlist));
 
 
         //ajout des fonctionalités à la navigation bar
