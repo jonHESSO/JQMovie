@@ -1,6 +1,5 @@
 package com.jqmovie.jqmovie.db.Entities;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
@@ -9,9 +8,13 @@ import android.arch.persistence.room.PrimaryKey;
  * Created by Jonathan on 17.04.2018.
  */
 
-@Entity(tableName = "MOVIES", foreignKeys = @ForeignKey(  entity = Director.class,
-                                    parentColumns = "directorid",
-                                    childColumns = "directorid"))
+@Entity(tableName = "MOVIES", foreignKeys =
+        {@ForeignKey(   entity = Director.class,
+                parentColumns = "directorid",
+                childColumns = "directorid"),
+        @ForeignKey(entity = Actor.class,
+                parentColumns = "actorid",
+                childColumns = "actorid")})
 public class Movie {
 
     @PrimaryKey
@@ -24,6 +27,8 @@ public class Movie {
     private String picture;
 
     private int directorid;
+
+    private int actorid;
 
     public int getMovieid() {
         return movieid;
@@ -79,5 +84,13 @@ public class Movie {
 
     public void setDirectorid(int directorid) {
         this.directorid = directorid;
+    }
+
+    public int getActorid() {
+        return actorid;
+    }
+
+    public void setActorid(int actorid) {
+        this.actorid = actorid;
     }
 }
