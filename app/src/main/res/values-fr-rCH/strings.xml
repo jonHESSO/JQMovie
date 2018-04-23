@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JQMovie</string>
+    <string name="Year">Année</string>
+    <string name="Genre">Genre</string>
+    <string name="firstName">Prénom</string>
+    <string name="lastName">Nom</string>
+    <string name="birthdate">Date de naissance</string>
+    <string name="submit">Valider</string>
+    <string name="title_activity_main">ShowActivity</string>
+    <string name="biography">Biographie</string>
+    <string name="movies">Films</string>
+    <string name="director">Directeur</string>
+    <string name="directors">Directeurs</string>
+    <string name="actors">Acteurs</string>
+    <string name="btnmovie">Choisir des films</string>
+    <string name="btndirector">Choisir un directeur</string>
+    <string name="btnactor">Choisir des acteurs</string>
+    <string name="nameMovie">Nom</string>
+    <string name="genre">Genre</string>
+    <string name="year">Année</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="listactors">liste d\'acteurs</string>
+    <string name="listdirectors">liste de directeurs</string>
+    <string name="listmovies">liste de films</string>
+    <string name="search">Recherche ici</string>
+    <string name="abouttxt">Cette application a été créée dans le cadre d\'un projet de cours de développement mobile sous les ordres du Dr Michael Schumacher.</string>
+    <string name="title_activity_settings">Paramètre</string>
+    <string name="lang">Langage de l\'application</string>
+    <string name="about">À propos</string>
+    <string name="settings">Paramètre</string>
+    <string name="add">Ajouter</string>
+    <string name="delete">Supprimer</string>
+    <string name="edit">Editer</string>
+    <string name="french">Français</string>
+    <string name="english">Anglais</string>
+</resources>

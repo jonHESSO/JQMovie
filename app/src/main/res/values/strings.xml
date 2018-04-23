@@ -31,9 +31,7 @@
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string-array name="lang_arrays">
-        <item>English</item>
-        <item>French</item>
+    <string name="french">French</string>
+    <string name="english">English</string>
 
-    </string-array>
 </resources>

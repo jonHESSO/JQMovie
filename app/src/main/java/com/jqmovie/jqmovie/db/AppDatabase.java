@@ -53,7 +53,8 @@ public abstract class AppDatabase extends RoomDatabase{
                             @Override
                             public void run() {
                                 getAppDatabase(context).actorDAO().insertAll(Actor.populateData());
-                                Toast.makeText(context, "Data inserted", Toast.LENGTH_SHORT).show();
+                                getAppDatabase(context).directorDAO().insertAll(Director.populateData());
+                                getAppDatabase(context).movieDAO().insertAll(Movie.populateData());
 
                             }
                         });

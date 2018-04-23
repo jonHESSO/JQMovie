@@ -9,43 +9,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Movies.MovieEdit"
-            android:label="@string/movies">
-        </activity>
-        <activity android:name=".Movies.Movies"
-            android:label="@string/movies">
-        </activity>
-        <activity android:name=".Actors.Actors"
+        <activity
+            android:name=".Movies.MovieEdit"
+            android:label="@string/movies" />
+        <activity
+            android:name=".Movies.Movies"
+            android:label="@string/movies" />
+        <activity
+            android:name=".Actors.Actors"
             android:label="@string/actors">
+        </activity>
+        <activity
+            android:name=".Movies.MovieDetails"
+            android:label="@string/movies" />
+        <activity
+            android:name=".Directors.Directors"
+            android:label="@string/directors" />
+        <activity
+            android:name=".Directors.DirectorDetails"
+            android:label="@string/directors" />
+        <activity
+            android:name=".Directors.DirectorEdit"
+            android:label="@string/directors" />
+        <activity
+            android:name=".Actors.ActorDetails"
+            android:label="@string/actors" />
+        <activity
+            android:name=".Actors.ActorEdit"
+            android:label="@string/actors" />
+        <activity
+            android:name=".About.About"
+            android:label="@string/about" />
+        <activity
+            android:name=".Settings.Settings"
+            android:label="@string/settings" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Movies.MovieDetails"
-            android:label="@string/movies">
-        </activity>
-        <activity android:name=".Directors.Directors"
-            android:label="@string/directors">
-        </activity>
-        <activity android:name=".Directors.DirectorDetails"
-            android:label="@string/directors">
-        </activity>
-        <activity android:name=".Directors.DirectorEdit"
-            android:label="@string/directors">
-        </activity>
-        <activity android:name=".Actors.ActorDetails"
-            android:label="@string/actors">
-        </activity>
-        <activity android:name=".Actors.ActorEdit"
-            android:label="@string/actors">
-        </activity>
-        <activity android:name=".About.About"
-            android:label="@string/about">
-        </activity>
-        <activity android:name=".Settings.Settings"
-            android:label="@string/settings">
         </activity>
     </application>
 

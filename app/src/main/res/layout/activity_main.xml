@@ -14,33 +14,48 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.jqmovie.jqmovie.Settings.Settings">
+            tools:context="com.jqmovie.jqmovie.MainActivity">
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="0dp"
+            <Button
+                android:id="@+id/button_movie"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/lang"
-                android:textSize="24sp"
+                android:background="@mipmap/movies"
+                app:layout_constraintBottom_toTopOf="@+id/button_actor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="395dp"
+            <Button
+                android:id="@+id/button_actor"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView11"
-                tools:layout_editor_absoluteX="8dp"
-                tools:ignore="MissingConstraints" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@mipmap/actors"
+                app:layout_constraintBottom_toTopOf="@+id/button_director"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_movie" />
+
+            <Button
+                android:id="@+id/button_director"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@mipmap/directors"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_actor" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
     <android.support.design.widget.NavigationView
-        android:id="@+id/menu_settings"
+        android:id="@+id/menu_menu"
         app:headerLayout="@layout/menu_header"
         android:layout_width="220dp"
         android:layout_height="match_parent"

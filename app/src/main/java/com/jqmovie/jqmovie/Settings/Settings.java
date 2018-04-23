@@ -1,19 +1,31 @@
 package com.jqmovie.jqmovie.Settings;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
+import com.jqmovie.jqmovie.BuildConfig;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 
-public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +35,33 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_settings);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // creer spinner
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        // remplir le spinner
+        List<String> categories = new ArrayList<String>();
+        categories.add(getString(R.string.english));
+        categories.add(getString(R.string.french));
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    //Séléction d'une langue
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String item = parent.getItemAtPosition(position).toString();
+
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 
