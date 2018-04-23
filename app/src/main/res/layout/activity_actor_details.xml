@@ -24,7 +24,7 @@
                 tools:context="com.jqmovie.jqmovie.Movies.MovieDetails">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/actorPicture"
                     android:layout_width="0dp"
                     android:layout_height="180dp"
                     android:layout_marginEnd="16dp"
@@ -32,61 +32,61 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/actorName"
                     app:srcCompat="@android:color/background_dark" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/yearLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/birthdate"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/actorPicture" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/yearValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="1992"
-                    app:layout_constraintStart_toEndOf="@+id/textView"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    app:layout_constraintStart_toEndOf="@+id/yearLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/actorPicture" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/moviesLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/movies"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/button" />
+                    app:layout_constraintTop_toTopOf="@+id/moviesButton" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/moviesButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/movies"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/yearValue" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/biographyLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/biography"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button" />
+                    app:layout_constraintTop_toBottomOf="@+id/moviesButton" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/biographyValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -98,11 +98,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView7"
+                    app:layout_constraintTop_toBottomOf="@+id/biographyLabel"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/actorName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"

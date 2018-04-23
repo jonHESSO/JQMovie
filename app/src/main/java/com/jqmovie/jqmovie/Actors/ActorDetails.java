@@ -6,16 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import java.util.Arrays;
-import java.util.List;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jqmovie.jqmovie.About.About;
@@ -23,6 +14,8 @@ import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Actor;
 
 public class ActorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -34,6 +27,23 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor_details);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent() ;
+        Actor actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid", 0)) ;
+
+        ImageView image = findViewById(R.id.actorPicture) ;
+        image.setImageResource(actor.getPicture());
+
+        TextView name = findViewById(R.id.actorName) ;
+        name.setText(actor.getFirstname() + " " + actor.getLastname());
+
+        TextView birthdate = findViewById(R.id.yearValue) ;
+        birthdate.setText(actor.getBirthdate());
+
+        TextView biography = findViewById(R.id.biographyValue) ;
+        biography.setText(actor.getBiography());
+
+
     }
 
 

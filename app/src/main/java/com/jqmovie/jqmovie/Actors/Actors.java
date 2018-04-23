@@ -34,13 +34,9 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
         gridview = (GridView) findViewById(R.id.actorgrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-        List<Actor> testlist = db.actorDAO().getAll() ;
+        List<Actor> actorList = db.actorDAO().getAll() ;
 
-        Toast.makeText(this, "Jon added", Toast.LENGTH_SHORT).show();
-
-
-        gridview.setAdapter(new ActorAdapter(this, testlist));
-
+        gridview.setAdapter(new ActorAdapter(this, actorList));
 
         //ajout des fonctionalités à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor);

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ead4867d554ada366939ccab74b83ae2",
+    "identityHash": "63b027628f4cbd486a1fd8f1f96fac36",
     "entities": [
       {
         "tableName": "ACTORS",
@@ -106,7 +106,7 @@
       },
       {
         "tableName": "MOVIES",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieid` INTEGER NOT NULL, `title` TEXT, `year` TEXT, `genre` TEXT, `synopsis` TEXT, `picture` TEXT, `directorid` INTEGER NOT NULL, PRIMARY KEY(`movieid`), FOREIGN KEY(`directorid`) REFERENCES `DIRECTORS`(`directorid`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieid` INTEGER NOT NULL, `title` TEXT, `year` TEXT, `genre` TEXT, `synopsis` TEXT, `picture` TEXT, `directorid` INTEGER NOT NULL, `actorid` INTEGER NOT NULL, PRIMARY KEY(`movieid`), FOREIGN KEY(`directorid`) REFERENCES `DIRECTORS`(`directorid`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`actorid`) REFERENCES `ACTORS`(`actorid`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "movieid",
@@ -149,6 +149,12 @@
             "columnName": "directorid",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "actorid",
+            "columnName": "actorid",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -157,7 +163,24 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_MOVIES_directorid",
+            "unique": false,
+            "columnNames": [
+              "directorid"
+            ],
+            "createSql": "CREATE  INDEX `index_MOVIES_directorid` ON `${TABLE_NAME}` (`directorid`)"
+          },
+          {
+            "name": "index_MOVIES_actorid",
+            "unique": false,
+            "columnNames": [
+              "actorid"
+            ],
+            "createSql": "CREATE  INDEX `index_MOVIES_actorid` ON `${TABLE_NAME}` (`actorid`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "DIRECTORS",
@@ -169,13 +192,24 @@
             "referencedColumns": [
               "directorid"
             ]
+          },
+          {
+            "table": "ACTORS",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "actorid"
+            ],
+            "referencedColumns": [
+              "actorid"
+            ]
           }
         ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ead4867d554ada366939ccab74b83ae2\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"63b027628f4cbd486a1fd8f1f96fac36\")"
     ]
   }
 }
