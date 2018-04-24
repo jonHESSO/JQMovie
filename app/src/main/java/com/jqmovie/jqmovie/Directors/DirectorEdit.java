@@ -55,41 +55,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //Ajout d'une alertDialog pour choisir les films du directeur
-        button = (Button)findViewById(R.id.btn_addmovie_director);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                alertdialogbuilder = new AlertDialog.Builder(DirectorEdit.this);
-
-                ItemsIntoList = Arrays.asList(AlertDialogItems);
-
-                alertdialogbuilder.setMultiChoiceItems(AlertDialogItems, Selectedtruefalse, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-                    }
-                });
-                alertdialogbuilder.setCancelable(false);
-
-                alertdialogbuilder.setTitle("Select Movies Here");
-
-                alertdialogbuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-
-                AlertDialog dialog = alertdialogbuilder.create();
-
-                dialog.show();
-            }
-        });
     }
 
     //actions des boutons de la navigation bar

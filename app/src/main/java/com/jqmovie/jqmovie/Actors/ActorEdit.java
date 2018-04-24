@@ -17,34 +17,16 @@ import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Actor;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class ActorEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-
-    Button button;
-
-    AlertDialog.Builder alertdialogbuilder;
-
-    String[] AlertDialogItems = new String[]{
-            "Titanic",
-            "Catch me if you can",
-            "Saving private Ryan",
-            "Interstellar",
-    };
-
-    List<String> ItemsIntoList;
-
-    boolean[] Selectedtruefalse = new boolean[]{
-            false,
-            false,
-            false,
-            false,
-    };
-
-
+    Actor actor ;
+    Boolean create = true ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,41 +37,48 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Ajout d'une alertDialog pour choisir les films de l'acteur
-        button = (Button)findViewById(R.id.btn_addmovie_actor);
+        final TextView firstnameView = findViewById(R.id.edit_firstname_actor) ;
+        final TextView lastnameView = findViewById(R.id.edit_lastname_actor) ;
+        final TextView birthdateView = findViewById(R.id.edit_birthdate_actor) ;
+        final TextView biographyView = findViewById(R.id.edit_biography_actor) ;
 
+        Intent intent = getIntent() ;
+
+        actor = new Actor();
+        if(intent.getExtras() != null && intent.getExtras().containsKey("actorid"))
+        {
+            create = false ;
+            actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid",0));
+            firstnameView.setText(actor.getFirstname());
+            lastnameView.setText(actor.getLastname());
+            birthdateView.setText(actor.getBirthdate());
+            biographyView.setText(actor.getBiography());
+        }
+
+
+        Button button = findViewById(R.id.btn_submit_actor) ;
         button.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-
-
-                alertdialogbuilder = new AlertDialog.Builder(ActorEdit.this);
-
-                ItemsIntoList = Arrays.asList(AlertDialogItems);
-
-                alertdialogbuilder.setMultiChoiceItems(AlertDialogItems, Selectedtruefalse, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-                    }
-                });
-                alertdialogbuilder.setCancelable(false);
-
-                alertdialogbuilder.setTitle("Select Movies Here");
-
-                alertdialogbuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-
-                AlertDialog dialog = alertdialogbuilder.create();
-
-                dialog.show();
+            public void onClick(View view) {
+                actor.setFirstname(firstnameView.getText().toString());
+                actor.setLastname(lastnameView.getText().toString());
+                actor.setBirthdate(birthdateView.getText().toString());
+                actor.setBiography(biographyView.getText().toString());
+                if(create == false) {
+                    AppDatabase.getAppDatabase(view.getContext()).actorDAO().update(actor);
+                }
+                else
+                {
+                    actor.setPicture(R.mipmap.actors);
+                    AppDatabase.getAppDatabase(view.getContext()).actorDAO().insert(actor);
+                }
+                Intent intent = new Intent(view.getContext(), Actors.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
-        });
+        }) ;
+
     }
 
     //actions des boutons de la navigation bar

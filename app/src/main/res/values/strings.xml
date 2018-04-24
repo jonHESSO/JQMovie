@@ -33,5 +33,8 @@
     <string name="edit">Edit</string>
     <string name="french">French</string>
     <string name="english">English</string>
+    <string name="confirm">Are you sure ?</string>
+    <string name="yes">yes</string>
+    <string name="cancel">cancel</string>
 
 </resources>

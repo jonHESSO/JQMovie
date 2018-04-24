@@ -9,6 +9,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android">
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
         <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
@@ -183,11 +189,10 @@
                 android:id="@+id/btn_submit_movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:text="@string/submit"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="0dp" />
+                tools:layout_editor_absoluteY="579dp" />
 
             <EditText
                 android:id="@+id/edit_synopsis_movie"
@@ -206,8 +211,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_synopsis_movie" />
 
 
-
         </android.support.constraint.ConstraintLayout>
+        </ScrollView>
     </LinearLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/menu_movie_edit"

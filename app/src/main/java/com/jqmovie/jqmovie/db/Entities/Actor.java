@@ -22,7 +22,7 @@ import java.util.ListIterator;
 
 public class Actor {
 
-    @PrimaryKey/*(autoGenerate = true)*/
+    @PrimaryKey(autoGenerate = true)
     private int actorid ;
 
     private String firstname;
@@ -39,6 +39,8 @@ public class Actor {
         this.biography = biography;
         this.picture = picture;
     }
+
+    public Actor(){}
 
     public int getActorid() {
         return actorid;

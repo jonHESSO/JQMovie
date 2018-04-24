@@ -1,13 +1,17 @@
 package com.jqmovie.jqmovie.Actors;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Directors.Directors;
@@ -19,17 +23,22 @@ import com.jqmovie.jqmovie.db.Entities.Actor;
 
 public class ActorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    Actor actor ;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actor_details);
+
+        context = this;
 
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor_details);
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent() ;
-        Actor actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid", 0)) ;
+        actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid", 0)) ;
 
         ImageView image = findViewById(R.id.actorPicture) ;
         image.setImageResource(actor.getPicture());
@@ -79,10 +88,15 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
 
             case R.id.item_edit:
                 Intent intent6 = new Intent(ActorDetails.this, ActorEdit.class);
+                intent6.putExtra("actorid", actor.getActorid()) ;
                 startActivity(intent6);
                 return true;
 
             case R.id.item_delete:
+                        AppDatabase.getAppDatabase(getParent()).actorDAO().delete(actor);
+                        Intent intent7 = new Intent(ActorDetails.this, Actors.class);
+                        intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent7);
                 return true;
 
             default:

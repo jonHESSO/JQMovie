@@ -1,8 +1,10 @@
 package com.jqmovie.jqmovie.db.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.jqmovie.jqmovie.db.Entities.Actor;
 
@@ -28,5 +30,9 @@ public interface ActorDAO {
     @Insert
     void insert(Actor actor) ;
 
+    @Update
+    void update(Actor actor);
 
+    @Delete
+    void delete(Actor actor);
 }
