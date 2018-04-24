@@ -13,18 +13,20 @@ import android.widget.Toast;
 
 import com.jqmovie.jqmovie.Actors.ActorDetails;
 import com.jqmovie.jqmovie.R;
+import com.jqmovie.jqmovie.db.Entities.Movie;
+
+import java.util.List;
 
 public class MovieAdapter extends BaseAdapter {
 
-    String [] result;
+    List<Movie> movieList;
     Context context;
-    int [] imageId;
+
     private static LayoutInflater inflater=null;
-    public MovieAdapter(Movies movies, String[] movieList, int[] movieImages) {
+    public MovieAdapter(Movies movies, List<Movie> movieList) {
         // TODO Auto-generated constructor stub
-        result=movieList;
+        this.movieList=movieList;
         context=movies;
-        imageId=movieImages;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -33,7 +35,7 @@ public class MovieAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return result.length;
+        return this.movieList.size();
     }
 
     @Override
@@ -63,18 +65,17 @@ public class MovieAdapter extends BaseAdapter {
         holder.movie_text =(TextView) rowView.findViewById(R.id.movie_texts);
         holder.movie_img =(ImageView) rowView.findViewById(R.id.movie_images);
 
-        holder.movie_text.setText(result[position]);
-        holder.movie_img.setImageResource(imageId[position]);
+        holder.movie_text.setText(movieList.get(position).getTitle());
+        holder.movie_img.setImageResource(movieList.get(position).getPicture());
 
         rowView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(context, MovieDetails.class);
-                intent.putExtra("Title", result[position]);
+                intent.putExtra("movieid", movieList.get(position).getMovieid());
 
                 context.startActivity(intent);
             }

@@ -13,21 +13,16 @@ import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Director;
+
+import java.util.List;
 
 public class Directors extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
     GridView gridview;
 
-    public static String[] directorList = {
-            "James Cameron",
-            "Steven Spielberg",
-            "Chritopher Nolan",
 
-    };
-    public static int[] directorImages = {
-            R.mipmap.cameron,
-            R.mipmap.spielberg,
-            R.mipmap.nolan,};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +31,12 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
 
         //création du gridlayout
         gridview = (GridView) findViewById(R.id.directorgrid);
-        gridview.setAdapter(new DirectorAdapter(this, directorList, directorImages));
+
+        AppDatabase db = AppDatabase.getAppDatabase(this) ;
+
+        List<Director> directorList = db.directorDAO().getAll() ;
+
+        gridview.setAdapter(new DirectorAdapter(this, directorList));
 
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director);
