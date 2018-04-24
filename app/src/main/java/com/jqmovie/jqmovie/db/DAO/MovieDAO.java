@@ -1,8 +1,10 @@
 package com.jqmovie.jqmovie.db.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Movie;
@@ -26,4 +28,12 @@ public interface MovieDAO {
     @Insert
     void insertAll(List<Movie> movies) ;
 
+    @Update
+    void update(Movie movie);
+
+    @Insert
+    void insert(Movie movie);
+
+    @Delete
+    void delete(Movie movie);
 }

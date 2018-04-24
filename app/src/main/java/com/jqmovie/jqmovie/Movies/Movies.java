@@ -79,4 +79,14 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
                 return false;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppDatabase db = AppDatabase.getAppDatabase(this) ;
+
+        List<Movie> movieList = db.movieDAO().getAll() ;
+
+        gridview.setAdapter(new MovieAdapter(this, movieList));
+    }
 }

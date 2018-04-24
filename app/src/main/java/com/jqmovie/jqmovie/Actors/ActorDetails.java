@@ -95,8 +95,9 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
             case R.id.item_delete:
                         AppDatabase.getAppDatabase(getParent()).actorDAO().delete(actor);
                         Intent intent7 = new Intent(ActorDetails.this, Actors.class);
-                        intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent7);
+                        ActorDetails.this.finish();
                 return true;
 
             default:

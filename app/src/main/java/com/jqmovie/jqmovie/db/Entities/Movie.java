@@ -13,16 +13,18 @@ import java.util.List;
  * Created by Jonathan on 17.04.2018.
  */
 
-@Entity(tableName = "MOVIES"/*, foreignKeys =
+@Entity(tableName = "MOVIES", foreignKeys =
         {@ForeignKey(   entity = Director.class,
                 parentColumns = "directorid",
-                childColumns = "directorid"),
+                childColumns = "directorid",
+                onDelete = ForeignKey.CASCADE),
         @ForeignKey(entity = Actor.class,
                 parentColumns = "actorid",
-                childColumns = "actorid")}*/)
+                childColumns = "actorid",
+                onDelete = ForeignKey.CASCADE)})
 public class Movie {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int movieid;
 
     private String title;
@@ -45,6 +47,8 @@ public class Movie {
         this.directorid = directorid;
         this.actorid = actorid;
     }
+
+    public Movie(){};
 
     public int getMovieid() {
         return movieid;

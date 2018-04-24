@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorEdit;
@@ -17,7 +19,12 @@ import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Actor;
+import com.jqmovie.jqmovie.db.Entities.Director;
+import com.jqmovie.jqmovie.db.Entities.Movie;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,46 +36,14 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
     AlertDialog.Builder alertdialogbuilderDirector;
     AlertDialog.Builder alertdialogbuilderActor;
 
-    String[] AlertDialogItemsDirector = new String[]{
-            "Cameron",
-            "Spielberg",
-            "Nolan",
-    };
-    String[] AlertDialogItemsActor = new String[]{
-            "Burns",
-            "Burstyn",
-            "Caine",
-            "Chastain",
-            "Matt Damon",
-            "Leoanardo DiCapaccio",
-            "Tom Hanks",
-            "Hathaway",
-            "Irwin",
-            "McConaughey",
-            "Kate Winslet",
-    };
+    Movie movie ;
 
-    List<String> ItemsIntoListDirector;
-    List<String> ItemsIntoListActor;
+    Boolean create = true ;
 
-    boolean[] SelectedtruefalseDirector = new boolean[]{
-            false,
-            false,
-            false,
-    };
-    boolean[] SelectedtruefalseActor = new boolean[]{
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-    };
+    int actorid = -1 ;
+    int directorid = -1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,11 +53,33 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
+        final TextView titleView = findViewById(R.id.edit_name_movie);
+        final TextView genreView = findViewById(R.id.edit_genre_movie);
+        final TextView yearView = findViewById(R.id.edit_year_movie);
+        final TextView synopsisView = findViewById(R.id.edit_synopsis_movie);
+
+        Intent intent = getIntent() ;
+
+        movie = new Movie();
+        if(intent.getExtras() != null && intent.getExtras().containsKey("movieid")) {
+            create = false;
+            movie = AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().getMovie(intent.getIntExtra("movieid",0));
+            titleView.setText(movie.getTitle());
+            genreView.setText(movie.getGenre());
+            yearView.setText(movie.getYear());
+            synopsisView.setText(movie.getSynopsis());
+            actorid = movie.getActorid();
+            directorid = movie.getDirectorid();
+        }
 
 
         //Ajout d'une alertDialog pour choisir les acteurs et le directeur du film
         buttonDirector = (Button)findViewById(R.id.btn_adddirector_movie);
         buttonActor = (Button)findViewById(R.id.btn_addactors_movie);
+
+        Button buttonSubmit= (Button)findViewById(R.id.btn_submit_movie);
+
+
 
         buttonDirector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,14 +88,23 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
                 alertdialogbuilderDirector = new AlertDialog.Builder(MovieEdit.this);
 
-                ItemsIntoListDirector = Arrays.asList(AlertDialogItemsDirector);
+                final List<Director> directors =  AppDatabase.getAppDatabase(MovieEdit.this).directorDAO().getAll();
+                String[] directornames = new String[directors.size()];
+                int i = 0;
+                for (Director di:directors) {
+                    directornames[i] = di.getFirstname()+" "+di.getLastname();
+                    i++;
+                }
 
-                alertdialogbuilderDirector.setMultiChoiceItems(AlertDialogItemsDirector, SelectedtruefalseDirector, new DialogInterface.OnMultiChoiceClickListener() {
+
+                alertdialogbuilderDirector.setSingleChoiceItems(directornames, -1, new DialogInterface.OnClickListener(){
                     @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        directorid = directors.get(i).getDirectorid();
                     }
                 });
+
+
                 alertdialogbuilderDirector.setCancelable(false);
 
                 alertdialogbuilderDirector.setTitle("Select Director Here");
@@ -106,7 +112,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 alertdialogbuilderDirector.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Toast.makeText(MovieEdit.this, "Director : "+directorid, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -123,14 +129,23 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
                 alertdialogbuilderActor = new AlertDialog.Builder(MovieEdit.this);
 
-                ItemsIntoListActor = Arrays.asList(AlertDialogItemsActor);
 
-                alertdialogbuilderActor.setMultiChoiceItems(AlertDialogItemsActor, SelectedtruefalseActor, new DialogInterface.OnMultiChoiceClickListener() {
+                final List<Actor> actors =  AppDatabase.getAppDatabase(MovieEdit.this).actorDAO().getAll();
+                String[] actornames = new String[actors.size()];
+                int i = 0;
+                for (Actor ac:actors) {
+                    actornames[i] = ac.getFirstname()+" "+ac.getLastname();
+                    i++;
+                }
+
+
+                alertdialogbuilderActor.setSingleChoiceItems(actornames, -1, new DialogInterface.OnClickListener(){
                     @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        actorid = actors.get(i).getActorid();
                     }
                 });
+
                 alertdialogbuilderActor.setCancelable(false);
 
                 alertdialogbuilderActor.setTitle("Select Actors Here");
@@ -138,7 +153,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 alertdialogbuilderActor.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Toast.makeText(MovieEdit.this, "Actor : "+actorid, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -146,6 +161,34 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 AlertDialog dialog = alertdialogbuilderActor.create();
 
                 dialog.show();
+            }
+        });
+
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(actorid==-1 || directorid==-1){
+                    Toast.makeText(MovieEdit.this, "Please select actor and director", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                movie.setActorid(actorid);
+                movie.setDirectorid(directorid);
+                movie.setTitle(titleView.getText().toString());
+                movie.setGenre(genreView.getText().toString());
+                movie.setYear(yearView.getText().toString());
+                movie.setSynopsis(synopsisView.getText().toString());
+                if(create==false)
+                {
+                    AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().update(movie);
+                }
+                else{
+                    movie.setPicture(R.mipmap.movies);
+                    AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().insert(movie);
+
+                }
+                Intent intent = new Intent(view.getContext(), Movies.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }

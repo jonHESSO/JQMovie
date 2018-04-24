@@ -19,9 +19,12 @@ import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
 import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
 public class MovieDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent() ;
-        final Movie movie = AppDatabase.getAppDatabase(this).movieDAO().getMovie(intent.getIntExtra("movieid", 0)) ;
+        movie = AppDatabase.getAppDatabase(this).movieDAO().getMovie(intent.getIntExtra("movieid", 0)) ;
 
         ImageView image = findViewById(R.id.moviePicture) ;
         image.setImageResource(movie.getPicture());
@@ -101,14 +104,27 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
 
             case R.id.item_edit:
                 Intent intent6 = new Intent(MovieDetails.this, MovieEdit.class);
+                intent6.putExtra("movieid", movie.getMovieid());
                 startActivity(intent6);
                 return true;
 
             case R.id.item_delete:
+                AppDatabase.getAppDatabase(getParent()).movieDAO().delete(movie);
+                Intent intent7 = new Intent(MovieDetails.this, Movies.class);
+                intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent7);
+                MovieDetails.this.finish();
                 return true;
 
             default:
                 return false;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Actor actor = AppDatabase.getAppDatabase(MovieDetails.this).actorDAO().getActor(movie.getActorid());
+        if(actor==null){MovieDetails.this.finish();}
     }
 }
