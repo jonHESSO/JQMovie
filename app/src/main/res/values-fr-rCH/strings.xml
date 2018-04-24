@@ -34,4 +34,6 @@
     <string name="edit">Editer</string>
     <string name="french">Français</string>
     <string name="english">Anglais</string>
+    <string name="yes">Oui</string>
+    <string name="cancel">Annuler</string>
 </resources>

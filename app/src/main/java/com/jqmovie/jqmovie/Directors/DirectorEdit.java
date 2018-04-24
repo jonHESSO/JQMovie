@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorEdit;
@@ -17,31 +18,16 @@ import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Director;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class DirectorEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    Button button;
-
-    AlertDialog.Builder alertdialogbuilder;
-
-    String[] AlertDialogItems = new String[]{
-            "Titanic",
-            "Catch me if you can",
-            "Saving private Ryan",
-            "Interstellar",
-    };
-
-    List<String> ItemsIntoList;
-
-    boolean[] Selectedtruefalse = new boolean[]{
-            false,
-            false,
-            false,
-            false,
-    };
+    Director director ;
+    Boolean create = true ;
 
 
 
@@ -54,7 +40,47 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
+        final TextView firstnameView = findViewById(R.id.edit_firstname_director) ;
+        final TextView lastnameView = findViewById(R.id.edit_lastname_director) ;
+        final TextView birthdateView = findViewById(R.id.edit_birthdate_director) ;
+        final TextView biographyView = findViewById(R.id.edit_biography_director) ;
 
+        Intent intent = getIntent() ;
+
+        director = new Director();
+        if(intent.getExtras() != null && intent.getExtras().containsKey("directorid"))
+        {
+            create = false ;
+            director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid",0));
+            firstnameView.setText(director.getFirstname());
+            lastnameView.setText(director.getLastname());
+            birthdateView.setText(director.getBirthdate());
+            biographyView.setText(director.getBiography());
+        }
+
+
+        Button button = findViewById(R.id.btn_submit_director) ;
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                director.setFirstname(firstnameView.getText().toString());
+                director.setLastname(lastnameView.getText().toString());
+                director.setBirthdate(birthdateView.getText().toString());
+                director.setBiography(biographyView.getText().toString());
+                if(create == false) {
+                    AppDatabase.getAppDatabase(view.getContext()).directorDAO().update(director);
+                }
+                else
+                {
+                    director.setPicture(R.mipmap.directors);
+                    AppDatabase.getAppDatabase(view.getContext()).directorDAO().insert(director);
+                }
+                Intent intent = new Intent(view.getContext(), Directors.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        }) ;
 
     }
 

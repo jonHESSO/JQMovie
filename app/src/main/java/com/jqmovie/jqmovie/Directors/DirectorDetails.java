@@ -1,5 +1,6 @@
 package com.jqmovie.jqmovie.Directors;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,17 +20,22 @@ import com.jqmovie.jqmovie.db.Entities.Director;
 
 public class DirectorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    Director director;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_director_details);
+
+        context = this;
 
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director_details);
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent() ;
-        Director director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid", 0)) ;
+        director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid", 0)) ;
 
         ImageView image = findViewById(R.id.directorPicture) ;
         image.setImageResource(director.getPicture());
@@ -75,10 +81,15 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
 
             case R.id.item_edit:
                 Intent intent6 = new Intent(DirectorDetails.this, DirectorEdit.class);
+                intent6.putExtra("directorid", director.getDirectorid()) ;
                 startActivity(intent6);
                 return true;
 
             case R.id.item_delete:
+                AppDatabase.getAppDatabase(getParent()).directorDAO().delete(director);
+                Intent intent7 = new Intent(DirectorDetails.this, Directors.class);
+                intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent7);
                 return true;
 
             default:

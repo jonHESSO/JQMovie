@@ -1,6 +1,7 @@
 package com.jqmovie.jqmovie.Settings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,7 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
+public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+
+    private Button buttonEnglish, buttonFrench;
+    private Locale myLocale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,33 +42,59 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_settings);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // creer spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
 
-        // remplir le spinner
-        List<String> categories = new ArrayList<String>();
-        categories.add(getString(R.string.english));
-        categories.add(getString(R.string.french));
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        this.buttonEnglish = (Button)findViewById(R.id.button_english);
+        this.buttonFrench = (Button)findViewById(R.id.button_french);
 
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        this.buttonEnglish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String lang = "en";
+                changeLang(lang);
+                Intent intent = new Intent(Settings.this, Settings.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        this.buttonFrench.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String lang = "fr";
+                changeLang(lang);
+                Intent intent1 = new Intent(Settings.this, Settings.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent1);
+            }
+        });
+
+        loadLocale();
     }
 
-    //Séléction d'une langue
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = parent.getItemAtPosition(position).toString();
-
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-
-
+    public void changeLang(String lang)
+    {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
+    public void saveLocale(String lang)
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Settings.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.commit();
+    }
+    public void loadLocale()
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Settings.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+        changeLang(language);
     }
 
     //action des boutons

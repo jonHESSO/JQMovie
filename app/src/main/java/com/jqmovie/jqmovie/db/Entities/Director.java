@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Director {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int directorid ;
 
     private String firstname;
@@ -33,7 +33,9 @@ public class Director {
         this.biography = biography;
         this.picture = picture;
     }
+    public Director(){
 
+    }
     public int getDirectorid() {
         return directorid;
     }

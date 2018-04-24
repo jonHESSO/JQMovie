@@ -1,8 +1,10 @@
 package com.jqmovie.jqmovie.db.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Director;
@@ -26,4 +28,13 @@ public interface DirectorDAO {
 
     @Insert
     void insertAll(List<Director> directors) ;
+
+    @Insert
+    void insert(Director director) ;
+
+    @Update
+    void update(Director director);
+
+    @Delete
+    void delete(Director director);
 }
