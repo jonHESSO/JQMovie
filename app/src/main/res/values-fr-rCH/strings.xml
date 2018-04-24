@@ -36,4 +36,5 @@
     <string name="english">Anglais</string>
     <string name="yes">Oui</string>
     <string name="cancel">Annuler</string>
+    <string name="confirm">Vous êtes sur?</string>
 </resources>
