@@ -13,23 +13,15 @@ import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Movie;
+
+import java.util.List;
 
 public class Movies extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     GridView gridview;
 
-    public static String[] movieList = {
-            "Titanic",
-            "Catch Me If you Can",
-            "Saving Private Ryan",
-            "Interstellar",
-
-    };
-    public static int[] movieImages = {
-            R.mipmap.titanic,
-            R.mipmap.catchme,
-            R.mipmap.ryan,
-            R.mipmap.interstellar,};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +30,11 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
 
         //création du gridLayout
         gridview = (GridView) findViewById(R.id.moviegrid);
-        gridview.setAdapter(new MovieAdapter(this, movieList, movieImages));
+        AppDatabase db = AppDatabase.getAppDatabase(this) ;
+
+        List<Movie> movieList = db.movieDAO().getAll() ;
+
+        gridview.setAdapter(new MovieAdapter(this, movieList));
 
         //ajout des fonctionalités à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie);

@@ -6,12 +6,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
+import com.jqmovie.jqmovie.db.AppDatabase;
+import com.jqmovie.jqmovie.db.Entities.Director;
 
 public class DirectorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -23,6 +27,21 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         //ajout des fonctionalité à la navigation bar
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director_details);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent() ;
+        Director director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid", 0)) ;
+
+        ImageView image = findViewById(R.id.directorPicture) ;
+        image.setImageResource(director.getPicture());
+
+        TextView name = findViewById(R.id.name) ;
+        name.setText(director.getFirstname() + " " + director.getLastname());
+
+        TextView birthdate = findViewById(R.id.yearValue) ;
+        birthdate.setText(director.getBirthdate());
+
+        TextView biography = findViewById(R.id.biographyValue) ;
+        biography.setText(director.getBiography());
     }
 
     //actions des boutons de la navigation bar

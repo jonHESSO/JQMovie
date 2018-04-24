@@ -22,7 +22,7 @@ public interface DirectorDAO {
     List<Director> getAll() ;
 
     @Query("SELECT * FROM DIRECTORS WHERE directorid = :directorid")
-    Director getActor(int directorid) ;
+    Director getDirector(int directorid) ;
 
     @Insert
     void insertAll(List<Director> directors) ;
