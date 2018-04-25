@@ -7,8 +7,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
@@ -17,6 +20,9 @@ import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
 import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Director;
+import com.jqmovie.jqmovie.db.Entities.Movie;
+
+import java.util.List;
 
 public class DirectorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -48,6 +54,23 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
 
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(director.getBiography());
+
+        final Button btnMovie = findViewById(R.id.moviesButton);
+        btnMovie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                List<Movie> movies= AppDatabase.getAppDatabase(DirectorDetails.this).movieDAO().getMovieFromDirector(director.getDirectorid()) ;
+                if(movies.isEmpty()){
+                    Toast.makeText(DirectorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    Intent intentMovie = new Intent(DirectorDetails.this, Movies.class);
+                    intentMovie.putExtra("directorid", director.getDirectorid());
+                    startActivity(intentMovie);
+                }
+
+            }
+        });
     }
 
     //actions des boutons de la navigation bar

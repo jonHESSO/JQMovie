@@ -36,5 +36,6 @@
     <string name="confirm">Are you sure ?</string>
     <string name="yes">yes</string>
     <string name="cancel">cancel</string>
+    <string name="nothing">No Film</string>
 
 </resources>

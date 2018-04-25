@@ -14,7 +14,8 @@
             android:label="@string/movies" />
         <activity
             android:name=".Movies.Movies"
-            android:label="@string/movies" />
+            android:label="@string/movies"
+            android:launchMode="standard"/>
         <activity
             android:name=".Actors.Actors"
             android:label="@string/actors">

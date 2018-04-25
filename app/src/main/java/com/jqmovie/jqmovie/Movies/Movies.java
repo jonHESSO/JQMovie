@@ -22,26 +22,28 @@ import java.util.List;
 public class Movies extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     GridView gridview;
-
+    Intent intent ;
+    List<Movie> movieList ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        Intent intent = getIntent() ;
+        intent = getIntent() ;
 
         //création du gridLayout
         gridview = (GridView) findViewById(R.id.moviegrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-        List<Movie> movieList;
 
         if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
         }
-        else{
-            movieList = db.movieDAO().getAll() ;
+        else if(intent.getIntExtra("directorid",0) != 0){
+            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
+        }
+        else{movieList = db.movieDAO().getAll() ;
         }
 
 
@@ -95,9 +97,17 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
     @Override
     protected void onResume() {
         super.onResume();
-        AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-        List<Movie> movieList = db.movieDAO().getAll() ;
+        intent = getIntent() ;
+
+        if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
+            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
+        }
+        else if(intent.getIntExtra("directorid",0) != 0){
+            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
+        }
+        else{movieList = AppDatabase.getAppDatabase(Movies.this).movieDAO().getAll() ;
+        }
 
         gridview.setAdapter(new MovieAdapter(this, movieList));
     }

@@ -62,8 +62,8 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 List<Movie> movies= AppDatabase.getAppDatabase(ActorDetails.this).movieDAO().getMovieFromActor(actor.getActorid()) ;
-                if(movies==null){
-                    Toast.makeText(ActorDetails.this, "Aucun film", Toast.LENGTH_LONG).show();
+                if(movies.isEmpty()){
+                    Toast.makeText(ActorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
                 }
                 else{
 

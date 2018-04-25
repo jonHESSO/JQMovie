@@ -37,4 +37,5 @@
     <string name="yes">Oui</string>
     <string name="cancel">Annuler</string>
     <string name="confirm">Vous êtes sur?</string>
+    <string name="nothing">Aucun film</string>
 </resources>
