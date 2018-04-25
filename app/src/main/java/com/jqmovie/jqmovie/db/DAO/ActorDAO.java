@@ -37,6 +37,4 @@ public interface ActorDAO {
     @Delete
     void delete(Actor actor);
 
-    @Query("SELECT * FROM MOVIES WHERE actorid = :actorid")
-    Movie getMovie(int actorid) ;
 }

@@ -54,6 +54,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
                 Intent intent = new Intent(Settings.this, Settings.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                Settings.this.finish();
             }
         });
         this.buttonFrench.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
                 Intent intent1 = new Intent(Settings.this, Settings.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent1);
+                Settings.this.finish();
             }
         });
 

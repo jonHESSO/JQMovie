@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,10 @@ import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
 import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Actor;
+import com.jqmovie.jqmovie.db.Entities.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -52,7 +58,22 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(actor.getBiography());
 
+        final Button btnMovie = findViewById(R.id.moviesButton);
+        btnMovie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                List<Movie> movies= AppDatabase.getAppDatabase(ActorDetails.this).movieDAO().getMovieFromActor(actor.getActorid()) ;
+                if(movies==null){
+                    Toast.makeText(ActorDetails.this, "Aucun film", Toast.LENGTH_LONG).show();
+                }
+                else{
 
+                    Intent intentMovie = new Intent(ActorDetails.this, Movies.class);
+                    intentMovie.putExtra("actorid", actor.getActorid());
+                    startActivity(intentMovie);
+                }
+
+            }
+        });
     }
 
 

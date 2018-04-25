@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
@@ -28,11 +29,22 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
+        Intent intent = getIntent() ;
+
         //création du gridLayout
         gridview = (GridView) findViewById(R.id.moviegrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-        List<Movie> movieList = db.movieDAO().getAll() ;
+        List<Movie> movieList;
+
+        if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
+            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
+        }
+        else{
+            movieList = db.movieDAO().getAll() ;
+        }
+
+
 
         gridview.setAdapter(new MovieAdapter(this, movieList));
 

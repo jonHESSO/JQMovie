@@ -36,4 +36,10 @@ public interface MovieDAO {
 
     @Delete
     void delete(Movie movie);
+
+    @Query("SELECT * FROM MOVIES WHERE actorid = :actorid")
+    List<Movie> getMovieFromActor(int actorid) ;
+
+    @Query("SELECT * FROM MOVIES WHERE directorid = :directorid")
+    List<Movie> getMovieFromDirector(int directorid) ;
 }

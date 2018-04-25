@@ -30,9 +30,13 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actors);
 
+
+
         //création du gridLayout
         gridview = (GridView) findViewById(R.id.actorgrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
+
+
 
         List<Actor> actorList = db.actorDAO().getAll() ;
 
