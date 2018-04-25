@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to display the details of an actor
     Actor actor ;
     Context context;
 
@@ -39,10 +39,11 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
 
         context = this;
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor_details);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //fill in the actor's fields by accessing the database
         Intent intent = getIntent() ;
         actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid", 0)) ;
 
@@ -58,10 +59,12 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(actor.getBiography());
 
+        //button action to display the actor's movies
         final Button btnMovie = findViewById(R.id.moviesButton);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 List<Movie> movies= AppDatabase.getAppDatabase(ActorDetails.this).movieDAO().getMovieFromActor(actor.getActorid()) ;
+                //if the actor are not movie
                 if(movies.isEmpty()){
                     Toast.makeText(ActorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
                 }
@@ -78,7 +81,7 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
 
 
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

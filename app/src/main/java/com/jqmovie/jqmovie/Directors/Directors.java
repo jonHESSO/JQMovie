@@ -19,7 +19,7 @@ import com.jqmovie.jqmovie.db.Entities.Director;
 import java.util.List;
 
 public class Directors extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to display all the director of the db
     GridView gridview;
 
 
@@ -29,7 +29,8 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directors);
 
-        //création du gridlayout
+        //gridLayout creation
+
         gridview = (GridView) findViewById(R.id.directorgrid);
 
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
@@ -38,12 +39,12 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
 
         gridview.setAdapter(new DirectorAdapter(this, directorList));
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

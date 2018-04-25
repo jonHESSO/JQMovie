@@ -25,7 +25,7 @@ import com.jqmovie.jqmovie.db.Entities.Movie;
 import java.util.List;
 
 public class DirectorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to display the details of a director
     Director director;
     Context context;
 
@@ -36,10 +36,11 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
 
         context = this;
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director_details);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //fill in the director's fields by accessing the database
         Intent intent = getIntent() ;
         director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid", 0)) ;
 
@@ -55,6 +56,7 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(director.getBiography());
 
+        //button action to display the director's movies
         final Button btnMovie = findViewById(R.id.moviesButton);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -73,7 +75,7 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         });
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DirectorEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to edit and add a director
     Director director ;
     Boolean create = true ;
 
@@ -36,7 +36,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_director_edit);
 
-        //ajout des fonctionalités à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -47,6 +47,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
 
         Intent intent = getIntent() ;
 
+        //edit a director
         director = new Director();
         if(intent.getExtras() != null && intent.getExtras().containsKey("directorid"))
         {
@@ -59,18 +60,22 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
         }
 
 
+        //action button
         Button button = findViewById(R.id.btn_submit_director) ;
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                //get the director's info
                 director.setFirstname(firstnameView.getText().toString());
                 director.setLastname(lastnameView.getText().toString());
                 director.setBirthdate(birthdateView.getText().toString());
                 director.setBiography(biographyView.getText().toString());
+                //edit the director
                 if(create == false) {
                     AppDatabase.getAppDatabase(view.getContext()).directorDAO().update(director);
                 }
+                //add the director
                 else
                 {
                     director.setPicture(R.mipmap.directors);
@@ -84,7 +89,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

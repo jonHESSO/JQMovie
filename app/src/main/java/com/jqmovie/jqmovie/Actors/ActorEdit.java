@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ActorEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to edit and add an actor
     Actor actor ;
     Boolean create = true ;
 
@@ -33,7 +33,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actor_edit);
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -44,6 +44,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
 
         Intent intent = getIntent() ;
 
+        //edit an actor
         actor = new Actor();
         if(intent.getExtras() != null && intent.getExtras().containsKey("actorid"))
         {
@@ -55,19 +56,22 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
             biographyView.setText(actor.getBiography());
         }
 
-
+    //action button
         Button button = findViewById(R.id.btn_submit_actor) ;
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                //get the actor's info
                 actor.setFirstname(firstnameView.getText().toString());
                 actor.setLastname(lastnameView.getText().toString());
                 actor.setBirthdate(birthdateView.getText().toString());
                 actor.setBiography(biographyView.getText().toString());
+                //edit the actor
                 if(create == false) {
                     AppDatabase.getAppDatabase(view.getContext()).actorDAO().update(actor);
                 }
+                //add the actor
                 else
                 {
                     actor.setPicture(R.mipmap.actors);
@@ -81,7 +85,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

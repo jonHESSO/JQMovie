@@ -23,6 +23,7 @@ import java.util.List;
 
 public class Actors extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    //class to display all the actor of the db
     GridView gridview;
 
     @Override
@@ -32,7 +33,7 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
 
 
 
-        //création du gridLayout
+        //gridLayout creation
         gridview = (GridView) findViewById(R.id.actorgrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
@@ -42,13 +43,13 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
 
         gridview.setAdapter(new ActorAdapter(this, actorList));
 
-        //ajout des fonctionalités à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
 
-    //action des boutons
+    //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

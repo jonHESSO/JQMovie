@@ -23,10 +23,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_menu);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // action button actor
         final Button btnActor = findViewById(R.id.button_actor);
         btnActor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //action button movie
         final Button btnMovie = findViewById(R.id.button_movie);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //action button director
         final Button btnDirector = findViewById(R.id.button_director);
         btnDirector.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

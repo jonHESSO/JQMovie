@@ -21,6 +21,7 @@ import java.util.List;
 
 public class Movies extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    //class to display all the movie of the db
     GridView gridview;
     Intent intent ;
     List<Movie> movieList ;
@@ -32,17 +33,19 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
 
         intent = getIntent() ;
 
-        //création du gridLayout
+        //gridLayout creation
         gridview = (GridView) findViewById(R.id.moviegrid);
         AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-
-        if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
+        //whether the window should display an actor's movies
+        if(intent.getIntExtra("actorid",0) != 0){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
         }
+        //whether the window should display an director's movies
         else if(intent.getIntExtra("directorid",0) != 0){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
         }
+        //whether the window should display all movies in the db
         else{movieList = db.movieDAO().getAll() ;
         }
 
@@ -50,12 +53,12 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
 
         gridview.setAdapter(new MovieAdapter(this, movieList));
 
-        //ajout des fonctionalités à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -94,18 +97,22 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
         }
     }
 
+    //this method allows to update this class before it is in foreground
     @Override
     protected void onResume() {
         super.onResume();
 
         intent = getIntent() ;
 
+        //whether the window should display an actor's movies
         if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
         }
+        //whether the window should display an director's movies
         else if(intent.getIntExtra("directorid",0) != 0){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
         }
+        //whether the window should display all movies in the db
         else{movieList = AppDatabase.getAppDatabase(Movies.this).movieDAO().getAll() ;
         }
 

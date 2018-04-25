@@ -18,7 +18,7 @@ import java.util.List;
 
 
 public class DirectorAdapter extends BaseAdapter {
-
+    //class to create the gridlayout
     List<Director> directorList;
     Context context;
 
@@ -55,6 +55,7 @@ public class DirectorAdapter extends BaseAdapter {
         TextView director_text;
         ImageView director_img;
     }
+    //fill gridlayout and actions
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
@@ -67,7 +68,7 @@ public class DirectorAdapter extends BaseAdapter {
 
         holder.director_text.setText(directorList.get(position).getFirstname()+" "+directorList.get(position).getLastname());
         holder.director_img.setImageResource(directorList.get(position).getPicture());
-
+//action from when you click on an director
         rowView.setOnClickListener(new View.OnClickListener() {
 
             @Override

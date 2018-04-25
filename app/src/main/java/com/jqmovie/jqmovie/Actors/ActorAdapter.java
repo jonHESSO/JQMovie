@@ -17,7 +17,7 @@ import com.jqmovie.jqmovie.db.Entities.Actor;
 import java.util.List;
 
 public class ActorAdapter extends BaseAdapter {
-
+    //class to create the gridlayout
     List<Actor> actorList;
     Context context;
     private static LayoutInflater inflater=null;
@@ -50,6 +50,7 @@ public class ActorAdapter extends BaseAdapter {
         TextView actor_text;
         ImageView actor_img;
     }
+    //fill gridlayout and actions
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder=new Holder();
@@ -62,7 +63,7 @@ public class ActorAdapter extends BaseAdapter {
 
         holder.actor_text.setText(actorList.get(position).getFirstname()+" "+actorList.get(position).getLastname());
         holder.actor_img.setImageResource(actorList.get(position).getPicture());
-
+//action from when you click on an actor
         rowView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,7 +71,6 @@ public class ActorAdapter extends BaseAdapter {
 
 
                 Intent intent = new Intent(context, ActorDetails.class);
-                /*intent.putExtra("Name", result[position]);*/
                 intent.putExtra("actorid", actorList.get(position).getActorid());
 
                 context.startActivity(intent);

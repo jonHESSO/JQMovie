@@ -23,7 +23,7 @@ import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
 public class MovieDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to display the details of a movie
     Movie movie;
 
     @Override
@@ -31,10 +31,11 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie_details);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //fill in the actor's fields by accessing the database
         Intent intent = getIntent() ;
         movie = AppDatabase.getAppDatabase(this).movieDAO().getMovie(intent.getIntExtra("movieid", 0)) ;
 
@@ -53,6 +54,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         TextView synopsis = findViewById(R.id.synopsisValue) ;
         synopsis.setText(movie.getSynopsis());
 
+        //button action to display the movie's director
         final Button btnDirector = findViewById(R.id.moviesButton);
         btnDirector.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,7 +63,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
                 startActivity(intentDirector);
             }
         });
-
+        //button action to display the movie's actor
         final Button btnActor = findViewById(R.id.actorButton);
         btnActor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -73,7 +75,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -120,7 +122,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
                 return false;
         }
     }
-
+    //this method allows to update this class before it is in foreground
     @Override
     protected void onResume() {
         super.onResume();

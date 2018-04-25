@@ -18,7 +18,7 @@ import com.jqmovie.jqmovie.db.Entities.Movie;
 import java.util.List;
 
 public class MovieAdapter extends BaseAdapter {
-
+    //class to create the gridlayout
     List<Movie> movieList;
     Context context;
 
@@ -55,6 +55,7 @@ public class MovieAdapter extends BaseAdapter {
         TextView movie_text;
         ImageView movie_img;
     }
+    //fill gridlayout and actions
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
@@ -68,6 +69,7 @@ public class MovieAdapter extends BaseAdapter {
         holder.movie_text.setText(movieList.get(position).getTitle());
         holder.movie_img.setImageResource(movieList.get(position).getPicture());
 
+        //action from when you click on an actor
         rowView.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -38,7 +38,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //ajout des fonctionalité à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_settings);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -46,6 +46,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         this.buttonEnglish = (Button)findViewById(R.id.button_english);
         this.buttonFrench = (Button)findViewById(R.id.button_french);
 
+        //button action for english
         this.buttonEnglish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +58,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
                 Settings.this.finish();
             }
         });
+        //button action for french
         this.buttonFrench.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +73,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
 
         loadLocale();
     }
-
+    //method for changing language
     public void changeLang(String lang)
     {
         if (lang.equalsIgnoreCase(""))
@@ -83,6 +85,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
+    //Save the actual language
     public void saveLocale(String lang)
     {
         String langPref = "Language";
@@ -91,6 +94,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         editor.putString(langPref, lang);
         editor.commit();
     }
+    //load the saved language
     public void loadLocale()
     {
         String langPref = "Language";
@@ -99,7 +103,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         changeLang(language);
     }
 
-    //action des boutons
+    //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

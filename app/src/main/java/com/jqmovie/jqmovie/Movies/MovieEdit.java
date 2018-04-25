@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MovieEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //class to edit and add a movie
     Button buttonDirector;
     Button buttonActor;
 
@@ -49,7 +49,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_edit);
 
-        //ajout des fonctionalités à la navigation bar
+        //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie_edit);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -61,6 +61,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         Intent intent = getIntent() ;
 
         movie = new Movie();
+        //edit a movie
         if(intent.getExtras() != null && intent.getExtras().containsKey("movieid")) {
             create = false;
             movie = AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().getMovie(intent.getIntExtra("movieid",0));
@@ -73,19 +74,18 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         }
 
 
-        //Ajout d'une alertDialog pour choisir les acteurs et le directeur du film
         buttonDirector = (Button)findViewById(R.id.btn_adddirector_movie);
         buttonActor = (Button)findViewById(R.id.btn_addactors_movie);
 
         Button buttonSubmit= (Button)findViewById(R.id.btn_submit_movie);
 
 
-
+        //Button action director
         buttonDirector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                //Added a DialogAlert to choose a film director
                 alertdialogbuilderDirector = new AlertDialog.Builder(MovieEdit.this);
 
                 final List<Director> directors =  AppDatabase.getAppDatabase(MovieEdit.this).directorDAO().getAll();
@@ -122,11 +122,12 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 dialog.show();
             }
         });
+        //Button action actor
         buttonActor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                //Added a DialogAlert to choose an actor
                 alertdialogbuilderActor = new AlertDialog.Builder(MovieEdit.this);
 
 
@@ -163,24 +164,28 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 dialog.show();
             }
         });
-
+        //Button action submit
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //if no actor or director has been chosen
                 if(actorid==-1 || directorid==-1){
                     Toast.makeText(MovieEdit.this, "Please select actor and director", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //get the movie's info
                 movie.setActorid(actorid);
                 movie.setDirectorid(directorid);
                 movie.setTitle(titleView.getText().toString());
                 movie.setGenre(genreView.getText().toString());
                 movie.setYear(yearView.getText().toString());
                 movie.setSynopsis(synopsisView.getText().toString());
+                //edit the movie
                 if(create==false)
                 {
                     AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().update(movie);
                 }
+                //add the actor
                 else{
                     movie.setPicture(R.mipmap.movies);
                     AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().insert(movie);
@@ -193,7 +198,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         });
     }
 
-    //actions des boutons de la navigation bar
+    //bar navigation button actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
