@@ -18,6 +18,10 @@ import java.util.ListIterator;
  * Created by Jonathan on 17.04.2018.
  */
 
+/**
+ * Entity model for Actor
+ */
+
 @Entity(tableName = "ACTORS")
 
 public class Actor {
@@ -90,6 +94,7 @@ public class Actor {
         this.picture = picture;
     }
 
+    //Method for populating database on first run
     public static List<Actor> populateData()
     {
         List<Actor> actorList = new ArrayList<>();

@@ -12,6 +12,10 @@ import java.util.List;
  * Created by Jonathan on 17.04.2018.
  */
 
+/**
+ * Entity model for Director
+ */
+
 @Entity(tableName = "DIRECTORS")
 
 public class Director {
@@ -84,6 +88,7 @@ public class Director {
         this.picture = picture;
     }
 
+    //method for populating database on first run
     public static List<Director> populateData()
     {
         List<Director> directorList = new ArrayList<>();

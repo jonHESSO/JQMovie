@@ -13,6 +13,10 @@ import java.util.List;
  * Created by Jonathan on 17.04.2018.
  */
 
+/**
+ * Entity model for Movie
+ */
+
 @Entity(tableName = "MOVIES", foreignKeys =
         {@ForeignKey(   entity = Director.class,
                 parentColumns = "directorid",
@@ -114,6 +118,7 @@ public class Movie {
         this.actorid = actorid;
     }
 
+    //method for populating database on first run
     public static List<Movie> populateData()
     {
         List<Movie> movieList = new ArrayList<>();

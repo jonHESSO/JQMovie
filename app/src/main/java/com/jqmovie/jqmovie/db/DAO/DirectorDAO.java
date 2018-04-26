@@ -16,8 +16,12 @@ import java.util.List;
  * Created by Jonathan on 17.04.2018.
  */
 
-@Dao
+/**
+ * Interface for accessing the database and retrieving
+ * , insertind, deleting and updating directors
+ */
 
+@Dao
 public interface DirectorDAO {
 
     @Query("SELECT * FROM DIRECTORS")
