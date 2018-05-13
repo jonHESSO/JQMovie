@@ -71,7 +71,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-        loadLocale();
+        //loadLocale();
     }
     //method for changing language
     public void changeLang(String lang)
@@ -79,12 +79,13 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         if (lang.equalsIgnoreCase(""))
             return;
         myLocale = new Locale(lang);
-        saveLocale(lang);
+        //saveLocale(lang);
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
+/*
     //Save the actual language
     public void saveLocale(String lang)
     {
@@ -102,7 +103,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         String language = prefs.getString(langPref, "");
         changeLang(language);
     }
-
+*/
     //bar navigation button action
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
