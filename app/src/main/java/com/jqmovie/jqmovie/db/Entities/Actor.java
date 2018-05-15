@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.jqmovie.jqmovie.R;
 
@@ -28,6 +29,7 @@ import java.util.ListIterator;
 @IgnoreExtraProperties
 public class Actor {
     private String Parent;
+    @Exclude
     private String actorId ;
     private String firstname;
     private String lastname;

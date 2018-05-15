@@ -71,7 +71,7 @@ public class ActorAdapter extends BaseAdapter {
 
 
                 Intent intent = new Intent(context, ActorDetails.class);
-                intent.putExtra("actorid", actorList.get(position).getParent());
+                intent.putExtra("actorid", actorList.get(position).getActorId());
 
                 context.startActivity(intent);
             }

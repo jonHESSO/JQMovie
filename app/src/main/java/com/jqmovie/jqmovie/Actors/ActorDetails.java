@@ -81,11 +81,14 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final List<Movie> movies = new ArrayList<>();
-                mDatabase.child("movies").orderByChild("actorId").equalTo(actorId).addValueEventListener( new ValueEventListener() {
+                mDatabase.child("Movies").orderByChild("actorId").equalTo(actorId).addValueEventListener( new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                            movies.add(childDataSnapshot.getValue(Movie.class));
+                            Movie movie ;
+                            movie = childDataSnapshot.getValue(Movie.class);
+                            movie.setMovieid(childDataSnapshot.getKey());
+                            movies.add(movie);
                         }
                     }
 

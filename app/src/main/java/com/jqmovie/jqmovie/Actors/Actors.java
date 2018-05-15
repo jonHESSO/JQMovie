@@ -48,12 +48,15 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
 
         final List<Actor> actorList = new ArrayList<>();
 
-        mDatabase.child("actors").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-                    actorList.add(snapshot.getValue(Actor.class));
+                    Actor actor ;
+                    actor = snapshot.getValue(Actor.class);
+                    actor.setActorId(snapshot.getKey());
+                    actorList.add(actor);
                 }
             }
 

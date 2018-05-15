@@ -57,8 +57,9 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
         actor = new Actor();
         if(intent.getExtras() != null && intent.getExtras().containsKey("actorid"))
         {
+            actorId = intent.getStringExtra("actorid");
             create = false ;
-            mDatabase.child("actors").child(actorId).addValueEventListener(new ValueEventListener() {
+            mDatabase.child("Actors").child(actorId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     actor = dataSnapshot.getValue(Actor.class);
@@ -88,13 +89,14 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 actor.setBiography(biographyView.getText().toString());
                 //edit the actor
                 if(create == false) {
-                    mDatabase.child("actors").child(""+actorId).setValue(actor);
+                    mDatabase.child("Actors").child(actorId).setValue(actor);
                 }
                 //add the actor
                 else
                 {
                     actor.setPicture(R.mipmap.actors);
-                    mDatabase.child("actors").push().setValue(actor);
+                    DatabaseReference childref = mDatabase.child("Actors").push();
+                    childref.setValue(actor);
             }
                 Intent intent = new Intent(view.getContext(), Actors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
