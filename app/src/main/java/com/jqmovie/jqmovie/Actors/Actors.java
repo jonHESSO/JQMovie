@@ -11,35 +11,57 @@ import android.support.design.widget.NavigationView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Actor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Actors extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     //class to display all the actor of the db
     GridView gridview;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actors);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
 
         //gridLayout creation
         gridview = (GridView) findViewById(R.id.actorgrid);
-        AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
 
 
-        List<Actor> actorList = db.actorDAO().getAll() ;
+        final List<Actor> actorList = new ArrayList<>();
+
+        mDatabase.child("actors").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    actorList.add(snapshot.getValue(Actor.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         gridview.setAdapter(new ActorAdapter(this, actorList));
 

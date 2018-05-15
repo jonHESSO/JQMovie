@@ -6,6 +6,8 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.jqmovie.jqmovie.R;
 
 import java.util.ArrayList;
@@ -22,21 +24,18 @@ import java.util.ListIterator;
  * Entity model for Actor
  */
 
-@Entity(tableName = "ACTORS")
 
+@IgnoreExtraProperties
 public class Actor {
-
-    @PrimaryKey(autoGenerate = true)
-    private int actorid ;
-
+    private String Parent;
+    private int actorId ;
     private String firstname;
     private String lastname;
     private String birthdate;
     private String biography ;
     private int picture;
 
-    public Actor(int actorid, String firstname, String lastname, String birthdate, String biography, int picture) {
-        this.actorid = actorid;
+    public Actor(int actorId, String firstname, String lastname, String birthdate, String biography, int picture) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
@@ -46,12 +45,20 @@ public class Actor {
 
     public Actor(){}
 
-    public int getActorid() {
-        return actorid;
+    public String getParent() {
+        return Parent;
     }
 
-    public void setActorid(int actorid) {
-        this.actorid = actorid;
+    public void setParent(String parent) {
+        Parent = parent;
+    }
+
+    public int getActorId() {
+        return actorId;
+    }
+
+    public void setActorId(int actorId) {
+        this.actorId = actorId;
     }
 
     public String getFirstname() {
@@ -111,9 +118,6 @@ public class Actor {
         actorList.add(new Actor(10,"Ellen","Burstyn", "07.12.1932", "Born Edna Rae Gillooly, Ellen Burstyn found her breakthrough role in 1971's The Last Picture Show. She solidified her career with an iconic part in The Exorcist, and a best actress Oscar for Martin Scorsese's Alice Doesn't Live Here Anymore. Burstyn also won a Tony Award in 1975, served as president of Actor's Equity, and headed the Actors Studio for several years.",R.mipmap.burstyn)) ;
         actorList.add(new Actor(11,"Michael","Caine", "14.03.1933", "Born on March 14, 1933, in London, Sir Michael Caine went on to pursue a varied acting career. His first acclaimed role was as agent Harry Palmer in 1965's The Ipcress File, and he went on to be featured in films like Alfie, The Italian Job, Sleuth, Dirty Rotten Scoundrels, Christopher Nolan�s Dark Knight series and many more. He�s won two Oscars, one for Hannah and Her Sisters and the other for The Cider House Rules.",R.mipmap.caine)) ;
         return actorList ;
-
-
-
     }
 
 }

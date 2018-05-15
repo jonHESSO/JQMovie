@@ -12,12 +12,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Actor;
 
 import java.util.Arrays;
@@ -27,6 +31,9 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
     //class to edit and add an actor
     Actor actor ;
     Boolean create = true ;
+    int actorId;
+
+    DatabaseReference mDatabase ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +51,24 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
 
         Intent intent = getIntent() ;
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         //edit an actor
         actor = new Actor();
         if(intent.getExtras() != null && intent.getExtras().containsKey("actorid"))
         {
             create = false ;
-            actor = AppDatabase.getAppDatabase(this).actorDAO().getActor(intent.getIntExtra("actorid",0));
+            mDatabase.child("actors").child(""+actorId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    actor = dataSnapshot.getValue(Actor.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             firstnameView.setText(actor.getFirstname());
             lastnameView.setText(actor.getLastname());
             birthdateView.setText(actor.getBirthdate());
@@ -69,13 +88,13 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 actor.setBiography(biographyView.getText().toString());
                 //edit the actor
                 if(create == false) {
-                    AppDatabase.getAppDatabase(view.getContext()).actorDAO().update(actor);
+                    mDatabase.child("actors").child(""+actorId).setValue(actor);
                 }
                 //add the actor
                 else
                 {
                     actor.setPicture(R.mipmap.actors);
-                    AppDatabase.getAppDatabase(view.getContext()).actorDAO().insert(actor);
+                    mDatabase.child("actors").push().setValue(actor);
                 }
                 Intent intent = new Intent(view.getContext(), Actors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
