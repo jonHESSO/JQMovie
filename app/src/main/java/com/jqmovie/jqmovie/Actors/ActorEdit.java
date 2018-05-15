@@ -31,7 +31,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
     //class to edit and add an actor
     Actor actor ;
     Boolean create = true ;
-    int actorId;
+    String actorId;
 
     DatabaseReference mDatabase ;
 
@@ -58,7 +58,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
         if(intent.getExtras() != null && intent.getExtras().containsKey("actorid"))
         {
             create = false ;
-            mDatabase.child("actors").child(""+actorId).addValueEventListener(new ValueEventListener() {
+            mDatabase.child("actors").child(actorId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     actor = dataSnapshot.getValue(Actor.class);
@@ -95,7 +95,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 {
                     actor.setPicture(R.mipmap.actors);
                     mDatabase.child("actors").push().setValue(actor);
-                }
+            }
                 Intent intent = new Intent(view.getContext(), Actors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

@@ -32,7 +32,7 @@ import java.util.List;
 public class ActorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     //class to display the details of an actor
     Actor actor ;
-    int actorId ;
+    String actorId ;
     Context context;
     DatabaseReference mDatabase;
 
@@ -50,9 +50,9 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         //fill in the actor's fields by accessing the database
         Intent intent = getIntent() ;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        actorId = intent.getIntExtra("actorid",0);
+        actorId = intent.getStringExtra("actorid");
         actor = new Actor() ;
-        mDatabase.child("actors").child(""+actorId).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Actors").child(actorId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 actor = dataSnapshot.getValue(Actor.class);
