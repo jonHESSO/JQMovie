@@ -12,13 +12,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorEdit;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Director;
 
 import java.util.Arrays;
@@ -28,6 +32,9 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
     //class to edit and add a director
     Director director ;
     Boolean create = true ;
+    String directorId;
+
+    DatabaseReference mDatabase ;
 
 
 
@@ -47,12 +54,25 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
 
         Intent intent = getIntent() ;
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         //edit a director
         director = new Director();
         if(intent.getExtras() != null && intent.getExtras().containsKey("directorid"))
         {
+            directorId = intent.getStringExtra("directorid");
             create = false ;
-            director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid",0));
+            mDatabase.child("Directors").child(directorId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    director = dataSnapshot.getValue(Director.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             firstnameView.setText(director.getFirstname());
             lastnameView.setText(director.getLastname());
             birthdateView.setText(director.getBirthdate());
@@ -73,13 +93,14 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
                 director.setBiography(biographyView.getText().toString());
                 //edit the director
                 if(create == false) {
-                    AppDatabase.getAppDatabase(view.getContext()).directorDAO().update(director);
+                    mDatabase.child("Directors").child(directorId).setValue(director);
                 }
                 //add the director
                 else
                 {
                     director.setPicture(R.mipmap.directors);
-                    AppDatabase.getAppDatabase(view.getContext()).directorDAO().insert(director);
+                    DatabaseReference childref = mDatabase.child("Directors").push();
+                    childref.setValue(director);
                 }
                 Intent intent = new Intent(view.getContext(), Directors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

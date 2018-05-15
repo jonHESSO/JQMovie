@@ -8,19 +8,25 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.GridView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Director;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Directors extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
     //class to display all the director of the db
     GridView gridview;
+    DatabaseReference mDatabase;
 
 
 
@@ -29,13 +35,34 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directors);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
         //gridLayout creation
+        gridview = (GridView) findViewById(R.id.actorgrid);
 
-        gridview = (GridView) findViewById(R.id.directorgrid);
 
-        AppDatabase db = AppDatabase.getAppDatabase(this) ;
 
-        List<Director> directorList = db.directorDAO().getAll() ;
+        final List<Director> directorList = new ArrayList<>();
+
+        mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Director director ;
+                    director = snapshot.getValue(Director.class);
+                    director.setDirectorid(snapshot.getKey());
+                    directorList.add(director);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         gridview.setAdapter(new DirectorAdapter(this, directorList));
 

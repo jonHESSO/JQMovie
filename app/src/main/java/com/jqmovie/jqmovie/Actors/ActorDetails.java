@@ -150,7 +150,32 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
                 return true;
 
             case R.id.item_delete:
-                        mDatabase.child("actors").child(""+actorId).removeValue();
+                        mDatabase.child("Actors").child(actorId).removeValue();
+                        /*
+                        final List<Movie> movies = new ArrayList<>();
+                        mDatabase.child("Movies").orderByChild("actorId").equalTo(actorId).addValueEventListener( new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                                    Movie movie ;
+                                    movie = childDataSnapshot.getValue(Movie.class);
+                                    movie.setMovieid(childDataSnapshot.getKey());
+                                    movies.add(movie);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                        if(!(movies.isEmpty())){
+                            for (Movie m : movies) {
+                                mDatabase.child("Movies").child(m.getMovieid()).removeValue();
+                            }
+
+                        }
+                        */
                         Intent intent7 = new Intent(ActorDetails.this, Actors.class);
                         intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent7);

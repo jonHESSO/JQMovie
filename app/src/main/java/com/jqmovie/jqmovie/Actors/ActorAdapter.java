@@ -68,7 +68,7 @@ public class ActorAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-
+                // TODO Auto-generated method stub
 
                 Intent intent = new Intent(context, ActorDetails.class);
                 intent.putExtra("actorid", actorList.get(position).getActorId());

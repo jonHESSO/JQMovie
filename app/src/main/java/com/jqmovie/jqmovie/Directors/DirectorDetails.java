@@ -13,21 +13,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Movies.Movies;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Director;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DirectorDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     //class to display the details of a director
     Director director;
+    String directorId ;
     Context context;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,20 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
 
         //fill in the director's fields by accessing the database
         Intent intent = getIntent() ;
-        director = AppDatabase.getAppDatabase(this).directorDAO().getDirector(intent.getIntExtra("directorid", 0)) ;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        directorId = intent.getStringExtra("directorid");
+        director = new Director() ;
+        mDatabase.child("Directors").child(directorId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                director = dataSnapshot.getValue(Director.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         ImageView image = findViewById(R.id.directorPicture) ;
         image.setImageResource(director.getPicture());
@@ -60,7 +80,24 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         final Button btnMovie = findViewById(R.id.moviesButton);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<Movie> movies= AppDatabase.getAppDatabase(DirectorDetails.this).movieDAO().getMovieFromDirector(director.getDirectorid()) ;
+                final List<Movie> movies = new ArrayList<>();
+                mDatabase.child("Movies").orderByChild("directorId").equalTo(directorId).addValueEventListener( new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            Movie movie ;
+                            movie = childDataSnapshot.getValue(Movie.class);
+                            movie.setMovieid(childDataSnapshot.getKey());
+                            movies.add(movie);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //if the actor are not movie
                 if(movies.isEmpty()){
                     Toast.makeText(DirectorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
                 }
@@ -111,10 +148,36 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
                 return true;
 
             case R.id.item_delete:
-                AppDatabase.getAppDatabase(getParent()).directorDAO().delete(director);
+                mDatabase.child("Directors").child(directorId).removeValue();
+                /*
+                final List<Movie> movies = new ArrayList<>();
+                mDatabase.child("Movies").orderByChild("directorId").equalTo(directorId).addValueEventListener( new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            Movie movie ;
+                            movie = childDataSnapshot.getValue(Movie.class);
+                            movie.setMovieid(childDataSnapshot.getKey());
+                            movies.add(movie);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                if(!(movies.isEmpty())){
+                    for (Movie m : movies) {
+                        mDatabase.child("Movies").child(m.getMovieid()).removeValue();
+                    }
+
+                }
+                */
                 Intent intent7 = new Intent(DirectorDetails.this, Directors.class);
-                intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent7);
+                DirectorDetails.this.finish();
                 return true;
 
             default:
