@@ -65,7 +65,11 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         });
 
         ImageView image = findViewById(R.id.actorPicture) ;
-        image.setImageResource(actor.getPicture());
+
+        String picturename = actor.getPicture();
+        int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
+
+        image.setImageResource(ressourceId);
 
         TextView name = findViewById(R.id.actorName) ;
         name.setText(actor.getFirstname() + " " + actor.getLastname());

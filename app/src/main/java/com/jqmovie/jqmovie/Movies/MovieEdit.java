@@ -238,7 +238,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 }
                 //add the actor
                 else{
-                    movie.setPicture(R.mipmap.movies);
+                    movie.setPicture("movies");
                     DatabaseReference childref = mDatabase.child("Movies").push();
                     childref.setValue(movie);
 

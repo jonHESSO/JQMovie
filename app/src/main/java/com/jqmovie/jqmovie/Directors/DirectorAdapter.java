@@ -67,7 +67,9 @@ public class DirectorAdapter extends BaseAdapter {
         holder.director_img =(ImageView) rowView.findViewById(R.id.movie_images);
 
         holder.director_text.setText(directorList.get(position).getFirstname()+" "+directorList.get(position).getLastname());
-        holder.director_img.setImageResource(directorList.get(position).getPicture());
+        String picturename = directorList.get(position).getPicture();
+        int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
+        holder.director_img.setImageResource(ressourceId);
 //action from when you click on an director
         rowView.setOnClickListener(new View.OnClickListener() {
 

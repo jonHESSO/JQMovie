@@ -98,7 +98,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
                 //add the director
                 else
                 {
-                    director.setPicture(R.mipmap.directors);
+                    director.setPicture("directors");
                     DatabaseReference childref = mDatabase.child("Directors").push();
                     childref.setValue(director);
                 }

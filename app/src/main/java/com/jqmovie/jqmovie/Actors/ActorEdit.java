@@ -94,7 +94,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 //add the actor
                 else
                 {
-                    actor.setPicture(R.mipmap.actors);
+                    actor.setPicture("actors");
                     DatabaseReference childref = mDatabase.child("Actors").push();
                     childref.setValue(actor);
             }

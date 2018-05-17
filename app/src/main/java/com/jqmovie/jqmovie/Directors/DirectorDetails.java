@@ -65,7 +65,11 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         });
 
         ImageView image = findViewById(R.id.directorPicture) ;
-        image.setImageResource(director.getPicture());
+
+        String picturename = director.getPicture();
+        int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
+
+        image.setImageResource(ressourceId);
 
         TextView name = findViewById(R.id.name) ;
         name.setText(director.getFirstname() + " " + director.getLastname());

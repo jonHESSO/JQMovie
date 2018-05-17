@@ -62,7 +62,11 @@ public class ActorAdapter extends BaseAdapter {
 
 
         holder.actor_text.setText(actorList.get(position).getFirstname()+" "+actorList.get(position).getLastname());
-        holder.actor_img.setImageResource(actorList.get(position).getPicture());
+
+        String picturename = actorList.get(position).getPicture();
+        int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
+
+        holder.actor_img.setImageResource(ressourceId);
 //action from when you click on an actor
         rowView.setOnClickListener(new View.OnClickListener() {
 
