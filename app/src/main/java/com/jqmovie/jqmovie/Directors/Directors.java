@@ -28,7 +28,8 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
     GridView gridview;
     DatabaseReference mDatabase;
 
-
+    List<Director> directorList = new ArrayList<>();
+    DirectorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,14 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
 
 
         //gridLayout creation
-        gridview = (GridView) findViewById(R.id.actorgrid);
+        gridview = (GridView) findViewById(R.id.directorgrid);
 
 
 
-        final List<Director> directorList = new ArrayList<>();
+
+
+        adapter = new DirectorAdapter(this, directorList);
+        gridview.setAdapter(adapter);
 
         mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,10 +56,11 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     Director director ;
-                    director = snapshot.getValue(Director.class);
+                    director = (Director)snapshot.getValue(Director.class);
                     director.setDirectorid(snapshot.getKey());
                     directorList.add(director);
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -64,7 +69,7 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
             }
         });
 
-        gridview.setAdapter(new DirectorAdapter(this, directorList));
+
 
         //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_director);

@@ -23,7 +23,6 @@ import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
 
-import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
 public class MovieDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -63,7 +62,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         image.setImageResource(ressourceId);
 
         TextView name = findViewById(R.id.name) ;
-        name.setText(movie.getTitle());
+        name.setText(movie.getName());
 
         TextView year = findViewById(R.id.yearValue) ;
         year.setText(movie.getYear());
@@ -79,7 +78,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         btnDirector.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intentDirector = new Intent(MovieDetails.this, DirectorDetails.class);
-                intentDirector.putExtra("directorid", movie.getDirectorid());
+                intentDirector.putExtra("directorid", movie.getDirector());
                 startActivity(intentDirector);
             }
         });
@@ -88,7 +87,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         btnActor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intentActor = new Intent(MovieDetails.this, ActorDetails.class);
-                intentActor.putExtra("actorid", movie.getActorid());
+                intentActor.putExtra("actorid", movie.getActor());
                 startActivity(intentActor);
             }
         });
@@ -148,7 +147,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
 
         super.onResume();
         /*
-        Actor actor = AppDatabase.getAppDatabase(MovieDetails.this).actorDAO().getActor(movie.getActorid());
+        Actor actor = AppDatabase.getAppDatabase(MovieDetails.this).actorDAO().getActor(movie.getActor());
         if(actor==null){MovieDetails.this.finish();}
         */
     }

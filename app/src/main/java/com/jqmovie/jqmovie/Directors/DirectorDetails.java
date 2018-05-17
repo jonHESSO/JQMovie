@@ -35,6 +35,7 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
     String directorId ;
     Context context;
     DatabaseReference mDatabase;
+    List<Movie> movies ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,10 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         mDatabase.child("Directors").child(directorId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                director = dataSnapshot.getValue(Director.class);
+                if(dataSnapshot.exists()) {
+                    director = dataSnapshot.getValue(Director.class);
+                    setContent();
+                }
             }
 
             @Override
@@ -64,6 +68,11 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
             }
         });
 
+
+    }
+
+    private void setContent()
+    {
         ImageView image = findViewById(R.id.directorPicture) ;
 
         String picturename = director.getPicture();
@@ -80,27 +89,31 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(director.getBiography());
 
+        movies = new ArrayList<>();
+        mDatabase.child("Movies").addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Movie movie ;
+                    movie = childDataSnapshot.getValue(Movie.class);
+                    movie.setMovieid(childDataSnapshot.getKey());
+                    if(movie.getDirector().equals(directorId)) {
+                        movies.add(movie);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //button action to display the director's movies
         final Button btnMovie = findViewById(R.id.moviesButton);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final List<Movie> movies = new ArrayList<>();
-                mDatabase.child("Movies").orderByChild("directorId").equalTo(directorId).addValueEventListener( new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                            Movie movie ;
-                            movie = childDataSnapshot.getValue(Movie.class);
-                            movie.setMovieid(childDataSnapshot.getKey());
-                            movies.add(movie);
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
                 //if the actor are not movie
                 if(movies.isEmpty()){
                     Toast.makeText(DirectorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
@@ -147,7 +160,7 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
 
             case R.id.item_edit:
                 Intent intent6 = new Intent(DirectorDetails.this, DirectorEdit.class);
-                intent6.putExtra("directorid", director.getDirectorid()) ;
+                intent6.putExtra("directorid", directorId) ;
                 startActivity(intent6);
                 return true;
 

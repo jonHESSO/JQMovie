@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jqmovie.jqmovie.Actors.ActorDetails;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
@@ -66,7 +64,7 @@ public class MovieAdapter extends BaseAdapter {
         holder.movie_text =(TextView) rowView.findViewById(R.id.movie_texts);
         holder.movie_img =(ImageView) rowView.findViewById(R.id.movie_images);
 
-        holder.movie_text.setText(movieList.get(position).getTitle());
+        holder.movie_text.setText(movieList.get(position).getName());
         String picturename = movieList.get(position).getPicture();
         int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
         holder.movie_img.setImageResource(ressourceId);

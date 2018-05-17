@@ -3,7 +3,6 @@ package com.jqmovie.jqmovie.Movies;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
-import com.jqmovie.jqmovie.Actors.ActorEdit;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
@@ -29,7 +27,6 @@ import com.jqmovie.jqmovie.db.Entities.Director;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MovieEdit extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -84,12 +81,12 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
                 }
             });
-            titleView.setText(movie.getTitle());
+            titleView.setText(movie.getName());
             genreView.setText(movie.getGenre());
             yearView.setText(movie.getYear());
             synopsisView.setText(movie.getSynopsis());
-            actorid = movie.getActorid();
-            directorid = movie.getDirectorid();
+            actorid = movie.getActor();
+            directorid = movie.getDirector();
         }
 
 
@@ -225,9 +222,9 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                     return;
                 }
                 //get the movie's info
-                movie.setActorid(actorid);
-                movie.setDirectorid(directorid);
-                movie.setTitle(titleView.getText().toString());
+                movie.setActor(actorid);
+                movie.setDirector(directorid);
+                movie.setName(titleView.getText().toString());
                 movie.setGenre(genreView.getText().toString());
                 movie.setYear(yearView.getText().toString());
                 movie.setSynopsis(synopsisView.getText().toString());

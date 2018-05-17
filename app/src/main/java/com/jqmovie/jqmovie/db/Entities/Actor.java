@@ -1,21 +1,10 @@
 package com.jqmovie.jqmovie.db.Entities;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.jqmovie.jqmovie.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Jonathan on 17.04.2018.
@@ -28,34 +17,26 @@ import java.util.ListIterator;
 
 @IgnoreExtraProperties
 public class Actor {
-    private String Parent;
     @Exclude
     private String actorId ;
-    private String firstname;
-    private String lastname;
-    private String birthdate;
-    private String biography ;
-    private String picture;
+    private String Firstname;
+    private String Lastname;
+    private String Birthdate;
+    private String Biography;
+    private String Picture;
 
     public Actor(String actorId, String firstname, String lastname, String birthdate, String biography, String picture) {
         this.actorId=actorId;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthdate = birthdate;
-        this.biography = biography;
-        this.picture = picture;
+        this.Firstname = firstname;
+        this.Lastname = lastname;
+        this.Birthdate = birthdate;
+        this.Biography = biography;
+        this.Picture = picture;
     }
 
     public Actor(){}
 
-    public String getParent() {
-        return Parent;
-    }
-
-    public void setParent(String parent) {
-        Parent = parent;
-    }
-
+    @Exclude
     public String getActorId() {
         return actorId;
     }
@@ -65,50 +46,52 @@ public class Actor {
     }
 
     public String getFirstname() {
-        return firstname;
+        return Firstname;
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.Firstname = firstname;
     }
 
     public String getLastname() {
-        return lastname;
+        return Lastname;
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.Lastname = lastname;
     }
 
     public String getBirthdate() {
-        return birthdate;
+        return Birthdate;
     }
 
     public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+        this.Birthdate = birthdate;
     }
 
     public String getBiography() {
-        return biography;
+        return Biography;
     }
 
     public void setBiography(String biography) {
-        this.biography = biography;
+        this.Biography = biography;
     }
 
     public String getPicture() {
-        return picture;
+        return Picture;
     }
 
     public void setPicture(String picture) {
-        this.picture = picture;
+        this.Picture = picture;
     }
 
     //Method for populating database on first run
+    @Exclude
     public static List<Actor> populateData()
     {
-        List<Actor> actorList = new ArrayList<>();
 
+        List<Actor> actorList = new ArrayList<>();
+/*
         actorList.add(new Actor("1","Leonardo","DiCaprio", "11.11.1974", "Born in 1974 in Los Angeles, California, Leonardo DiCaprio is an actor known for his edgy, unconventional roles. He started out in television before moving on to film, scoring an Oscar nomination for his role in What's Eating Gilbert Grape (1993). In 1997, DiCaprio starred in James Cameron's epic drama Titanic, which made him a huge star. The actor has also paired up with iconic director Martin Scorsese for several projects, including The Aviator (2004) and The Departed (2006). His more recent films include Inception (2010), Django Unchained (2012), The Wolf of Wall Street (2013) and The Revenant (2015), winning his first Oscar for the latter.","dicaprio")) ;
         actorList.add(new Actor("2","Kate","Winsley", "05.10.1975", "Born on October 5, 1975, in Reading, England, Kate Winslet started acting at age 7. She starred on the British stage until the mid-1990s, when she appeared in her first film, Heavenly Creatures. In 1997 she had the lead in Titanic, which propelled her to international stardom. She has since starred in several offbeat films and has won the best actress Oscar for The Reader. She has also received several Golden Globes, including wins for Revolutionary Road, Mildred Pierce and Steve Jobs.","winslet")) ;
         actorList.add(new Actor("3","Tom","Hanks", "09.07.1956", "Born on July 9, 1956, in Concord, California, actor Tom Hanks began performing with the Great Lakes Shakespeare Festival in 1977, later moving to New York City. He starred in the television sitcom Bosom Buddies, but became far more known when he starred in the Ron Howard film Splash. He went on to star in many more popular and acclaimed movies, including Big, Forrest Gump and Cast Away, en route to becoming one of the most powerful and well-respected actors in Hollywood.","hanks")) ;
@@ -120,6 +103,8 @@ public class Actor {
         actorList.add(new Actor("9","Bill","Irwin", "11.04.1950", "William Mills Irwin is an American actor, clown, and comedian. He began as a vaudeville-style stage performer and has been noted for his contribution to the renaissance of American circus during the 1970s. He has also made a number of appearances on film and television, and he won a Tony Award for his role in Who's Afraid of Virginia Woolf on Broadway. He is also known as Mr. Noodle on the Sesame Street spinoff Elmo's World, has appeared in the Sesame Street film short Does Air Move Things?, and regularly appears as a therapist on Law and Order: SVU.","irwin")) ;
         actorList.add(new Actor("10","Ellen","Burstyn", "07.12.1932", "Born Edna Rae Gillooly, Ellen Burstyn found her breakthrough role in 1971's The Last Picture Show. She solidified her career with an iconic part in The Exorcist, and a best actress Oscar for Martin Scorsese's Alice Doesn't Live Here Anymore. Burstyn also won a Tony Award in 1975, served as president of Actor's Equity, and headed the Actors Studio for several years.","burstyn")) ;
         actorList.add(new Actor("11","Michael","Caine", "14.03.1933", "Born on March 14, 1933, in London, Sir Michael Caine went on to pursue a varied acting career. His first acclaimed role was as agent Harry Palmer in 1965's The Ipcress File, and he went on to be featured in films like Alfie, The Italian Job, Sleuth, Dirty Rotten Scoundrels, Christopher Nolan�s Dark Knight series and many more. He�s won two Oscars, one for Hannah and Her Sisters and the other for The Cider House Rules.","caine")) ;
+
+       */
         return actorList ;
     }
 
