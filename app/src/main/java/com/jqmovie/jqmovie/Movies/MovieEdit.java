@@ -3,6 +3,7 @@ package com.jqmovie.jqmovie.Movies;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorEdit;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Director;
 import com.jqmovie.jqmovie.db.Entities.Movie;
@@ -40,8 +44,12 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
     Boolean create = true ;
 
-    int actorid = -1 ;
-    int directorid = -1;
+    String actorid = "" ;
+    String directorid = "";
+
+    String movieid = "";
+
+    DatabaseReference mDatabase;
 
 
     @Override
@@ -63,8 +71,19 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         movie = new Movie();
         //edit a movie
         if(intent.getExtras() != null && intent.getExtras().containsKey("movieid")) {
+            movieid = intent.getStringExtra("movieid");
             create = false;
-            movie = AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().getMovie(intent.getIntExtra("movieid",0));
+            mDatabase.child("Movies").child(movieid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    movie = dataSnapshot.getValue(Movie.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             titleView.setText(movie.getTitle());
             genreView.setText(movie.getGenre());
             yearView.setText(movie.getYear());
@@ -88,7 +107,23 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 //Added a DialogAlert to choose a film director
                 alertdialogbuilderDirector = new AlertDialog.Builder(MovieEdit.this);
 
-                final List<Director> directors =  AppDatabase.getAppDatabase(MovieEdit.this).directorDAO().getAll();
+                final List<Director> directors =  new ArrayList<>();
+                mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childata :dataSnapshot.getChildren())
+                        {
+                            Director director = childata.getValue(Director.class);
+                            director.setDirectorid(childata.getKey());
+                            directors.add(director);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 String[] directornames = new String[directors.size()];
                 int i = 0;
                 for (Director di:directors) {
@@ -130,8 +165,24 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 //Added a DialogAlert to choose an actor
                 alertdialogbuilderActor = new AlertDialog.Builder(MovieEdit.this);
 
+                final List<Actor> actors =  new ArrayList<>();
+                mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childata :dataSnapshot.getChildren())
+                        {
+                            Actor actor = childata.getValue(Actor.class);
+                            actor.setActorId(childata.getKey());
+                            actors.add(actor);
+                        }
+                    }
 
-                final List<Actor> actors =  AppDatabase.getAppDatabase(MovieEdit.this).actorDAO().getAll();
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 String[] actornames = new String[actors.size()];
                 int i = 0;
                 for (Actor ac:actors) {
@@ -143,7 +194,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 alertdialogbuilderActor.setSingleChoiceItems(actornames, -1, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        actorid = actors.get(i).getActorid();
+                        actorid = actors.get(i).getActorId();
                     }
                 });
 
@@ -169,7 +220,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onClick(View view) {
                 //if no actor or director has been chosen
-                if(actorid==-1 || directorid==-1){
+                if(actorid=="-1" || directorid=="-1"){
                     Toast.makeText(MovieEdit.this, "Please select actor and director", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -183,12 +234,13 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 //edit the movie
                 if(create==false)
                 {
-                    AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().update(movie);
+                    mDatabase.child("Movies").child(movieid).setValue(movie);
                 }
                 //add the actor
                 else{
                     movie.setPicture(R.mipmap.movies);
-                    AppDatabase.getAppDatabase(MovieEdit.this).movieDAO().insert(movie);
+                    DatabaseReference childref = mDatabase.child("Movies").push();
+                    childref.setValue(movie);
 
                 }
                 Intent intent = new Intent(view.getContext(), Movies.class);

@@ -67,7 +67,9 @@ public class MovieAdapter extends BaseAdapter {
         holder.movie_img =(ImageView) rowView.findViewById(R.id.movie_images);
 
         holder.movie_text.setText(movieList.get(position).getTitle());
-        holder.movie_img.setImageResource(movieList.get(position).getPicture());
+        String picturename = movieList.get(position).getPicture();
+        int ressourceId = context.getResources().getIdentifier(picturename, "drawable", context.getPackageName());
+        holder.movie_img.setImageResource(ressourceId);
 
         //action from when you click on an actor
         rowView.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.jqmovie.jqmovie.Movies;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +10,19 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movies extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -25,6 +31,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
     GridView gridview;
     Intent intent ;
     List<Movie> movieList ;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +42,74 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
 
         //gridLayout creation
         gridview = (GridView) findViewById(R.id.moviegrid);
-        AppDatabase db = AppDatabase.getAppDatabase(this) ;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //whether the window should display an actor's movies
-        if(intent.getIntExtra("actorid",0) != 0){
-            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
+        if(intent.getExtras()!=null && intent.getExtras().containsKey("actorid"))
+        {
+            String actorid = intent.getStringExtra("actorid");
+            movieList = new ArrayList<>();
+            DatabaseReference childref = mDatabase.child("Movies").orderByChild("Actor").equalTo(actorid).getRef();
+            childref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot childata : dataSnapshot.getChildren())
+                    {
+                        Movie movie = childata.getValue(Movie.class);
+                        movie.setMovieid(childata.getKey());
+                        movieList.add(movie);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
         //whether the window should display an director's movies
-        else if(intent.getIntExtra("directorid",0) != 0){
-            movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
+        else if(intent.getExtras()!=null && intent.getExtras().containsKey("directorid"))
+        {
+            String directorid = intent.getStringExtra("directorid");
+            movieList = new ArrayList<>();
+            DatabaseReference childref = mDatabase.child("Movies").orderByChild("Director").equalTo(directorid).getRef();
+            childref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot childata : dataSnapshot.getChildren())
+                    {
+                        Movie movie = childata.getValue(Movie.class);
+                        movie.setMovieid(childata.getKey());
+                        movieList.add(movie);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
         //whether the window should display all movies in the db
-        else{movieList = db.movieDAO().getAll() ;
+        else{
+            movieList = new ArrayList<>();
+            DatabaseReference childref = mDatabase.child("Movies");
+            childref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot childata : dataSnapshot.getChildren()) {
+                        Movie movie = childata.getValue(Movie.class);
+                        movie.setMovieid(childata.getKey());
+                        movieList.add(movie);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
 
@@ -100,22 +163,25 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
     //this method allows to update this class before it is in foreground
     @Override
     protected void onResume() {
-        super.onResume();
 
+        super.onResume();
+        /*
         intent = getIntent() ;
 
         //whether the window should display an actor's movies
-        if(intent.getIntExtra("actorid",0) != 0 /*&& intent.getExtras().containsKey("actorid")*/){
+        if(intent.getExtras() != null && intent.getExtras().containsKey("actorid")){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromActor(intent.getIntExtra("actorid",0));
         }
         //whether the window should display an director's movies
-        else if(intent.getIntExtra("directorid",0) != 0){
+        else if(intent.getExtras() != null && intent.getExtras().containsKey("director")){
             movieList = AppDatabase.getAppDatabase(this).movieDAO().getMovieFromDirector(intent.getIntExtra("directorid",0));
         }
         //whether the window should display all movies in the db
-        else{movieList = AppDatabase.getAppDatabase(Movies.this).movieDAO().getAll() ;
+        else{
+            movieList = AppDatabase.getAppDatabase(Movies.this).movieDAO().getAll() ;
         }
 
         gridview.setAdapter(new MovieAdapter(this, movieList));
+        */
     }
 }

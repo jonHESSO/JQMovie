@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorDetails;
 import com.jqmovie.jqmovie.Actors.Actors;
@@ -18,13 +22,15 @@ import com.jqmovie.jqmovie.Directors.DirectorDetails;
 import com.jqmovie.jqmovie.Directors.Directors;
 import com.jqmovie.jqmovie.R;
 import com.jqmovie.jqmovie.Settings.Settings;
-import com.jqmovie.jqmovie.db.AppDatabase;
+
 import com.jqmovie.jqmovie.db.Entities.Actor;
 import com.jqmovie.jqmovie.db.Entities.Movie;
 
 public class MovieDetails extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     //class to display the details of a movie
     Movie movie;
+    String movieid;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +43,24 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
 
         //fill in the actor's fields by accessing the database
         Intent intent = getIntent() ;
-        movie = AppDatabase.getAppDatabase(this).movieDAO().getMovie(intent.getIntExtra("movieid", 0)) ;
+        movieid = intent.getStringExtra("movieid");
+        mDatabase.child("Movies").child(intent.getStringExtra("movieid")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                movie = dataSnapshot.getValue(Movie.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         ImageView image = findViewById(R.id.moviePicture) ;
-        image.setImageResource(movie.getPicture());
+
+        String picturename = movie.getPicture();
+        int ressourceId = getResources().getIdentifier(picturename, "drawable",getPackageName());
+        image.setImageResource(ressourceId);
 
         TextView name = findViewById(R.id.name) ;
         name.setText(movie.getTitle());
@@ -111,7 +131,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
                 return true;
 
             case R.id.item_delete:
-                AppDatabase.getAppDatabase(getParent()).movieDAO().delete(movie);
+                mDatabase.child("Movies").child(movieid).removeValue();
                 Intent intent7 = new Intent(MovieDetails.this, Movies.class);
                 intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent7);
@@ -125,8 +145,11 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
     //this method allows to update this class before it is in foreground
     @Override
     protected void onResume() {
+
         super.onResume();
+        /*
         Actor actor = AppDatabase.getAppDatabase(MovieDetails.this).actorDAO().getActor(movie.getActorid());
         if(actor==null){MovieDetails.this.finish();}
+        */
     }
 }
