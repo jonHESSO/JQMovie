@@ -32,6 +32,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
     Intent intent ;
     List<Movie> movieList ;
     DatabaseReference mDatabase;
+    MovieAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,9 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
         //gridLayout creation
         gridview = (GridView) findViewById(R.id.moviegrid);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        adapter = new MovieAdapter(this, movieList);
+        gridview.setAdapter(adapter);
 
         //whether the window should display an actor's movies
         if(intent.getExtras()!=null && intent.getExtras().containsKey("actorid"))
@@ -59,6 +63,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
                         movie.setMovieid(childata.getKey());
                         movieList.add(movie);
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -83,6 +88,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
                         movie.setMovieid(childata.getKey());
                         movieList.add(movie);
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -103,6 +109,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
                         movie.setMovieid(childata.getKey());
                         movieList.add(movie);
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -111,10 +118,6 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
                 }
             });
         }
-
-
-
-        gridview.setAdapter(new MovieAdapter(this, movieList));
 
         //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie);
