@@ -63,6 +63,10 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     actor = dataSnapshot.getValue(Actor.class);
+                    firstnameView.setText(actor.getFirstname());
+                    lastnameView.setText(actor.getLastname());
+                    birthdateView.setText(actor.getBirthdate());
+                    biographyView.setText(actor.getBiography());
                 }
 
                 @Override
@@ -70,10 +74,6 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
 
                 }
             });
-            firstnameView.setText(actor.getFirstname());
-            lastnameView.setText(actor.getLastname());
-            birthdateView.setText(actor.getBirthdate());
-            biographyView.setText(actor.getBiography());
         }
 
     //action button
