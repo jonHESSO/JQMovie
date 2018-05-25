@@ -32,6 +32,9 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
     GridView gridview;
     DatabaseReference mDatabase;
 
+    List<Actor> actorList = new ArrayList<>();
+    ActorAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,8 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
 
 
 
-        final List<Actor> actorList = new ArrayList<>();
+        adapter = new ActorAdapter(this, actorList);
+        gridview.setAdapter(adapter);
 
         mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,10 +58,11 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     Actor actor ;
-                    actor = snapshot.getValue(Actor.class);
+                    actor = (Actor)snapshot.getValue(Actor.class);
                     actor.setActorId(snapshot.getKey());
                     actorList.add(actor);
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -66,7 +71,6 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
             }
         });
 
-        gridview.setAdapter(new ActorAdapter(this, actorList));
 
         //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_actor);

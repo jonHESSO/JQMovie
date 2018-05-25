@@ -35,6 +35,7 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
     String actorId ;
     Context context;
     DatabaseReference mDatabase;
+    List<Movie> movies ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +49,17 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         //fill in the actor's fields by accessing the database
-        Intent intent = getIntent() ;
+        Intent intent = getIntent();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         actorId = intent.getStringExtra("actorid");
-        actor = new Actor() ;
+        actor = new Actor();
         mDatabase.child("Actors").child(actorId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                actor = dataSnapshot.getValue(Actor.class);
+                if (dataSnapshot.exists()) {
+                    actor = dataSnapshot.getValue(Actor.class);
+                    setContent();
+                }
             }
 
             @Override
@@ -64,6 +68,9 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+    private void setContent()
+    {
         ImageView image = findViewById(R.id.actorPicture) ;
 
         String picturename = actor.getPicture();
@@ -80,27 +87,31 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
         TextView biography = findViewById(R.id.biographyValue) ;
         biography.setText(actor.getBiography());
 
+        movies = new ArrayList<>();
+        mDatabase.child("Movies").addValueEventListener( new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Movie movie ;
+                    movie = childDataSnapshot.getValue(Movie.class);
+                    movie.setMovieid(childDataSnapshot.getKey());
+                    if(movie.getActor().equals(actorId)) {
+                        movies.add(movie);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //button action to display the actor's movies
         final Button btnMovie = findViewById(R.id.moviesButton);
         btnMovie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final List<Movie> movies = new ArrayList<>();
-                mDatabase.child("Movies").orderByChild("actorId").equalTo(actorId).addValueEventListener( new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                            Movie movie ;
-                            movie = childDataSnapshot.getValue(Movie.class);
-                            movie.setMovieid(childDataSnapshot.getKey());
-                            movies.add(movie);
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
                 //if the actor are not movie
                 if(movies.isEmpty()){
                     Toast.makeText(ActorDetails.this, R.string.nothing, Toast.LENGTH_LONG).show();
@@ -108,7 +119,7 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
                 else{
 
                     Intent intentMovie = new Intent(ActorDetails.this, Movies.class);
-                    intentMovie.putExtra("actorid", actorId);
+                    intentMovie.putExtra("actorid", actor.getActorId());
                     startActivity(intentMovie);
                 }
 
@@ -154,7 +165,7 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
                 return true;
 
             case R.id.item_delete:
-                        mDatabase.child("Actors").child(actorId).removeValue();
+                mDatabase.child("Actors").child(actorId).removeValue();
                         /*
                         final List<Movie> movies = new ArrayList<>();
                         mDatabase.child("Movies").orderByChild("actorId").equalTo(actorId).addValueEventListener( new ValueEventListener() {
@@ -180,10 +191,10 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
 
                         }
                         */
-                        Intent intent7 = new Intent(ActorDetails.this, Actors.class);
-                        intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent7);
-                        ActorDetails.this.finish();
+                Intent intent7 = new Intent(ActorDetails.this, Actors.class);
+                intent7.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent7);
+                ActorDetails.this.finish();
                 return true;
 
             default:

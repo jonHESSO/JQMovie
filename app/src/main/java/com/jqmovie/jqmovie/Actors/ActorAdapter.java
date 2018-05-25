@@ -53,7 +53,7 @@ public class ActorAdapter extends BaseAdapter {
     //fill gridlayout and actions
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Holder holder=new Holder();
+        ActorAdapter.Holder holder=new ActorAdapter.Holder();
         View rowView;
 
         rowView = inflater.inflate(R.layout.linearlayout_movie, null);
