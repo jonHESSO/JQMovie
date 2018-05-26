@@ -61,14 +61,16 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         mDatabase.child("Movies").child(intent.getStringExtra("movieid")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                movie = dataSnapshot.getValue(Movie.class);
-                String picturename = movie.getPicture();
-                int ressourceId = getResources().getIdentifier(picturename, "drawable",getPackageName());
-                image.setImageResource(ressourceId);
-                name.setText(movie.getName());
-                year.setText(movie.getYear());
-                genre.setText(movie.getGenre());
-                synopsis.setText(movie.getSynopsis());
+                if(dataSnapshot.exists()) {
+                    movie = dataSnapshot.getValue(Movie.class);
+                    String picturename = movie.getPicture();
+                    int ressourceId = getResources().getIdentifier(picturename, "drawable", getPackageName());
+                    image.setImageResource(ressourceId);
+                    name.setText(movie.getName());
+                    year.setText(movie.getYear());
+                    genre.setText(movie.getGenre());
+                    synopsis.setText(movie.getSynopsis());
+                }
             }
 
             @Override

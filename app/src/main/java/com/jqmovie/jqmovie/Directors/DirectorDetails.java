@@ -58,9 +58,9 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     director = dataSnapshot.getValue(Director.class);
-                    setContent();
-                }
-            }
+            setContent();
+        }
+    }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
