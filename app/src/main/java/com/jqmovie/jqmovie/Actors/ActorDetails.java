@@ -119,7 +119,7 @@ public class ActorDetails extends AppCompatActivity implements NavigationView.On
                 else{
 
                     Intent intentMovie = new Intent(ActorDetails.this, Movies.class);
-                    intentMovie.putExtra("actorid", actor.getActorId());
+                    intentMovie.putExtra("actorid", actorId);
                     startActivity(intentMovie);
                 }
 

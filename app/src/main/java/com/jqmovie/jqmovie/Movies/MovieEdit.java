@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.Actors;
@@ -48,6 +49,11 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
     DatabaseReference mDatabase;
 
+    List<Director> directors =  new ArrayList<>();
+    List<Actor> actors =  new ArrayList<>();
+    String[] actornames ;
+    String[] directornames = new String[directors.size()];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +69,16 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
         final TextView yearView = findViewById(R.id.edit_year_movie);
         final TextView synopsisView = findViewById(R.id.edit_synopsis_movie);
 
+        buttonDirector = (Button)findViewById(R.id.btn_adddirector_movie);
+        buttonActor = (Button)findViewById(R.id.btn_addactors_movie);
+
+        Button buttonSubmit= (Button)findViewById(R.id.btn_submit_movie);
+
         Intent intent = getIntent() ;
 
         movie = new Movie();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         //edit a movie
         if(intent.getExtras() != null && intent.getExtras().containsKey("movieid")) {
             movieid = intent.getStringExtra("movieid");
@@ -74,6 +87,12 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     movie = dataSnapshot.getValue(Movie.class);
+                    titleView.setText(movie.getName());
+                    genreView.setText(movie.getGenre());
+                    yearView.setText(movie.getYear());
+                    synopsisView.setText(movie.getSynopsis());
+                    actorid = movie.getActor();
+                    directorid = movie.getDirector();
                 }
 
                 @Override
@@ -81,137 +100,139 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
 
                 }
             });
-            titleView.setText(movie.getName());
-            genreView.setText(movie.getGenre());
-            yearView.setText(movie.getYear());
-            synopsisView.setText(movie.getSynopsis());
-            actorid = movie.getActor();
-            directorid = movie.getDirector();
+
         }
 
-
-        buttonDirector = (Button)findViewById(R.id.btn_adddirector_movie);
-        buttonActor = (Button)findViewById(R.id.btn_addactors_movie);
-
-        Button buttonSubmit= (Button)findViewById(R.id.btn_submit_movie);
-
-
-        //Button action director
-        buttonDirector.setOnClickListener(new View.OnClickListener() {
+        mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                directors.clear();
+                for (DataSnapshot childata :dataSnapshot.getChildren())
+                {
+                    Director director = childata.getValue(Director.class);
+                    director.setDirectorid(childata.getKey());
+                    directors.add(director);
 
-                //Added a DialogAlert to choose a film director
-                alertdialogbuilderDirector = new AlertDialog.Builder(MovieEdit.this);
-
-                final List<Director> directors =  new ArrayList<>();
-                mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childata :dataSnapshot.getChildren())
-                        {
-                            Director director = childata.getValue(Director.class);
-                            director.setDirectorid(childata.getKey());
-                            directors.add(director);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                String[] directornames = new String[directors.size()];
+                }
+                directornames = new String[directors.size()];
                 int i = 0;
                 for (Director di:directors) {
                     directornames[i] = di.getFirstname()+" "+di.getLastname();
                     i++;
                 }
-
-
-                alertdialogbuilderDirector.setSingleChoiceItems(directornames, -1, new DialogInterface.OnClickListener(){
+                //Button action director
+                buttonDirector.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        directorid = directors.get(i).getDirectorid();
+                    public void onClick(View v) {
+
+                        //Added a DialogAlert to choose a film director
+                        alertdialogbuilderDirector = new AlertDialog.Builder(MovieEdit.this);
+
+
+
+
+                        alertdialogbuilderDirector.setSingleChoiceItems(directornames, -1, new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                directorid = directors.get(i).getDirectorid();
+                            }
+                        });
+
+
+                        alertdialogbuilderDirector.setCancelable(false);
+
+                        alertdialogbuilderDirector.setTitle("Select Director Here");
+
+                        alertdialogbuilderDirector.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MovieEdit.this, "Director : "+directorid, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                        AlertDialog dialog = alertdialogbuilderDirector.create();
+
+                        dialog.show();
                     }
                 });
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                alertdialogbuilderDirector.setCancelable(false);
-
-                alertdialogbuilderDirector.setTitle("Select Director Here");
-
-                alertdialogbuilderDirector.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MovieEdit.this, "Director : "+directorid, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-                AlertDialog dialog = alertdialogbuilderDirector.create();
-
-                dialog.show();
             }
         });
-        //Button action actor
-        buttonActor.setOnClickListener(new View.OnClickListener() {
+
+        mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-
-                //Added a DialogAlert to choose an actor
-                alertdialogbuilderActor = new AlertDialog.Builder(MovieEdit.this);
-
-                final List<Actor> actors =  new ArrayList<>();
-                mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childata :dataSnapshot.getChildren())
-                        {
-                            Actor actor = childata.getValue(Actor.class);
-                            actor.setActorId(childata.getKey());
-                            actors.add(actor);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                String[] actornames = new String[actors.size()];
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childata :dataSnapshot.getChildren())
+                {
+                    Actor actor = childata.getValue(Actor.class);
+                    actor.setActorId(childata.getKey());
+                    actors.add(actor);
+                }
+                actornames = new String[actors.size()];
                 int i = 0;
                 for (Actor ac:actors) {
                     actornames[i] = ac.getFirstname()+" "+ac.getLastname();
                     i++;
                 }
 
-
-                alertdialogbuilderActor.setSingleChoiceItems(actornames, -1, new DialogInterface.OnClickListener(){
+                //Button action actor
+                buttonActor.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        actorid = actors.get(i).getActorId();
+                    public void onClick(View v) {
+
+                        //Added a DialogAlert to choose an actor
+                        alertdialogbuilderActor = new AlertDialog.Builder(MovieEdit.this);
+
+
+
+
+
+
+
+                        alertdialogbuilderActor.setSingleChoiceItems(actornames, -1, new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                actorid = actors.get(i).getActorId();
+                            }
+                        });
+
+                        alertdialogbuilderActor.setCancelable(false);
+
+                        alertdialogbuilderActor.setTitle("Select Actors Here");
+
+                        alertdialogbuilderActor.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MovieEdit.this, "Actor : "+actorid, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                        AlertDialog dialog = alertdialogbuilderActor.create();
+
+                        dialog.show();
                     }
                 });
+            }
 
-                alertdialogbuilderActor.setCancelable(false);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                alertdialogbuilderActor.setTitle("Select Actors Here");
-
-                alertdialogbuilderActor.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MovieEdit.this, "Actor : "+actorid, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-                AlertDialog dialog = alertdialogbuilderActor.create();
-
-                dialog.show();
             }
         });
+
+
+
+
+
+
+
+
         //Button action submit
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

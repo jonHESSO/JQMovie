@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jqmovie.jqmovie.About.About;
 import com.jqmovie.jqmovie.Actors.ActorDetails;
@@ -31,6 +32,12 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
     String movieid;
     DatabaseReference mDatabase;
 
+    ImageView image ;
+    TextView name;
+    TextView year ;
+    TextView genre ;
+    TextView synopsis ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,14 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie_details);
         navigationView.setNavigationItemSelectedListener(this);
 
+        image = findViewById(R.id.moviePicture) ;
+        name = findViewById(R.id.name) ;
+        year = findViewById(R.id.yearValue) ;
+        genre = findViewById(R.id.genreValue) ;
+        synopsis = findViewById(R.id.synopsisValue) ;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         //fill in the actor's fields by accessing the database
         Intent intent = getIntent() ;
         movieid = intent.getStringExtra("movieid");
@@ -47,6 +62,13 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 movie = dataSnapshot.getValue(Movie.class);
+                String picturename = movie.getPicture();
+                int ressourceId = getResources().getIdentifier(picturename, "drawable",getPackageName());
+                image.setImageResource(ressourceId);
+                name.setText(movie.getName());
+                year.setText(movie.getYear());
+                genre.setText(movie.getGenre());
+                synopsis.setText(movie.getSynopsis());
             }
 
             @Override
@@ -55,23 +77,9 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        ImageView image = findViewById(R.id.moviePicture) ;
 
-        String picturename = movie.getPicture();
-        int ressourceId = getResources().getIdentifier(picturename, "drawable",getPackageName());
-        image.setImageResource(ressourceId);
 
-        TextView name = findViewById(R.id.name) ;
-        name.setText(movie.getName());
 
-        TextView year = findViewById(R.id.yearValue) ;
-        year.setText(movie.getYear());
-
-        TextView genre = findViewById(R.id.genreValue) ;
-        genre.setText(movie.getGenre());
-
-        TextView synopsis = findViewById(R.id.synopsisValue) ;
-        synopsis.setText(movie.getSynopsis());
 
         //button action to display the movie's director
         final Button btnDirector = findViewById(R.id.moviesButton);
@@ -125,7 +133,7 @@ public class MovieDetails extends AppCompatActivity implements NavigationView.On
 
             case R.id.item_edit:
                 Intent intent6 = new Intent(MovieDetails.this, MovieEdit.class);
-                intent6.putExtra("movieid", movie.getMovieid());
+                intent6.putExtra("movieid", movieid);
                 startActivity(intent6);
                 return true;
 

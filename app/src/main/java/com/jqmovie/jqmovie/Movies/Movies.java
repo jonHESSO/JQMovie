@@ -30,7 +30,7 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
     //class to display all the movie of the db
     GridView gridview;
     Intent intent ;
-    List<Movie> movieList ;
+    List<Movie> movieList = new ArrayList<>();
     DatabaseReference mDatabase;
     MovieAdapter adapter;
 
@@ -48,66 +48,33 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
         adapter = new MovieAdapter(this, movieList);
         gridview.setAdapter(adapter);
 
-        //whether the window should display an actor's movies
-        if(intent.getExtras()!=null && intent.getExtras().containsKey("actorid"))
-        {
-            String actorid = intent.getStringExtra("actorid");
-            movieList = new ArrayList<>();
-            DatabaseReference childref = mDatabase.child("Movies").orderByChild("Actor").equalTo(actorid).getRef();
-            childref.addValueEventListener(new ValueEventListener() {
+
+            mDatabase.child("Movies").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot childata : dataSnapshot.getChildren())
-                    {
-                        Movie movie = childata.getValue(Movie.class);
-                        movie.setMovieid(childata.getKey());
-                        movieList.add(movie);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-        //whether the window should display an director's movies
-        else if(intent.getExtras()!=null && intent.getExtras().containsKey("directorid"))
-        {
-            String directorid = intent.getStringExtra("directorid");
-            movieList = new ArrayList<>();
-            DatabaseReference childref = mDatabase.child("Movies").orderByChild("Director").equalTo(directorid).getRef();
-            childref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot childata : dataSnapshot.getChildren())
-                    {
-                        Movie movie = childata.getValue(Movie.class);
-                        movie.setMovieid(childata.getKey());
-                        movieList.add(movie);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-        //whether the window should display all movies in the db
-        else{
-            movieList = new ArrayList<>();
-            DatabaseReference childref = mDatabase.child("Movies");
-            childref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                    movieList.clear();
                     for (DataSnapshot childata : dataSnapshot.getChildren()) {
                         Movie movie = childata.getValue(Movie.class);
                         movie.setMovieid(childata.getKey());
-                        movieList.add(movie);
+                        if(intent.getExtras()!=null && intent.getExtras().containsKey("actorid"))
+                        {
+                            if(movie.getActor().equals(intent.getStringExtra("actorid")))
+                            {
+                                movieList.add(movie);
+                            }
+                        }
+                        else if(intent.getExtras()!=null && intent.getExtras().containsKey("directorid"))
+                        {
+                            if(movie.getDirector().equals(intent.getStringExtra("directorid")))
+                            {
+                                movieList.add(movie);
+                            }
+                        }
+                        else
+                        {
+                            movieList.add(movie);
+                        }
+
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -117,7 +84,6 @@ public class Movies extends AppCompatActivity implements NavigationView.OnNaviga
 
                 }
             });
-        }
 
         //added features to bar navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.menu_movie);

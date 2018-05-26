@@ -53,6 +53,7 @@ public class Directors extends AppCompatActivity  implements NavigationView.OnNa
         mDatabase.child("Directors").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                directorList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     Director director ;

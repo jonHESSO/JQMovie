@@ -121,7 +121,7 @@ public class DirectorDetails extends AppCompatActivity implements NavigationView
                 else{
 
                     Intent intentMovie = new Intent(DirectorDetails.this, Movies.class);
-                    intentMovie.putExtra("directorid", director.getDirectorid());
+                    intentMovie.putExtra("directorid", directorId);
                     startActivity(intentMovie);
                 }
 

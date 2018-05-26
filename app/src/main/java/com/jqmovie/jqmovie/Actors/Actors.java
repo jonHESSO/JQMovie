@@ -55,6 +55,7 @@ public class Actors extends AppCompatActivity implements NavigationView.OnNaviga
         mDatabase.child("Actors").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                actorList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     Actor actor ;
