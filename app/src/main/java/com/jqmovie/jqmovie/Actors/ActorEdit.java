@@ -62,11 +62,13 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
             mDatabase.child("Actors").child(actorId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    actor = dataSnapshot.getValue(Actor.class);
-                    firstnameView.setText(actor.getFirstname());
-                    lastnameView.setText(actor.getLastname());
-                    birthdateView.setText(actor.getBirthdate());
-                    biographyView.setText(actor.getBiography());
+                    if(dataSnapshot.exists()) {
+                        actor = dataSnapshot.getValue(Actor.class);
+                        firstnameView.setText(actor.getFirstname());
+                        lastnameView.setText(actor.getLastname());
+                        birthdateView.setText(actor.getBirthdate());
+                        biographyView.setText(actor.getBiography());
+                    }
                 }
 
                 @Override
@@ -101,6 +103,7 @@ public class ActorEdit extends AppCompatActivity implements NavigationView.OnNav
                 Intent intent = new Intent(view.getContext(), Actors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                ActorEdit.this.finish();
             }
         }) ;
 

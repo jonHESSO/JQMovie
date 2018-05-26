@@ -65,11 +65,13 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
             mDatabase.child("Directors").child(directorId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    director = dataSnapshot.getValue(Director.class);
-                    firstnameView.setText(director.getFirstname());
-                    lastnameView.setText(director.getLastname());
-                    birthdateView.setText(director.getBirthdate());
-                    biographyView.setText(director.getBiography());
+                    if(dataSnapshot.exists()) {
+                        director = dataSnapshot.getValue(Director.class);
+                        firstnameView.setText(director.getFirstname());
+                        lastnameView.setText(director.getLastname());
+                        birthdateView.setText(director.getBirthdate());
+                        biographyView.setText(director.getBiography());
+                    }
                 }
 
                 @Override
@@ -88,6 +90,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 //get the director's info
+
                 director.setFirstname(firstnameView.getText().toString());
                 director.setLastname(lastnameView.getText().toString());
                 director.setBirthdate(birthdateView.getText().toString());
@@ -106,6 +109,7 @@ public class DirectorEdit extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(view.getContext(), Directors.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                DirectorEdit.this.finish();
             }
         }) ;
 

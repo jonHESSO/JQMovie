@@ -86,13 +86,15 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
             mDatabase.child("Movies").child(movieid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    movie = dataSnapshot.getValue(Movie.class);
-                    titleView.setText(movie.getName());
-                    genreView.setText(movie.getGenre());
-                    yearView.setText(movie.getYear());
-                    synopsisView.setText(movie.getSynopsis());
-                    actorid = movie.getActor();
-                    directorid = movie.getDirector();
+                    if(dataSnapshot.exists()) {
+                        movie = dataSnapshot.getValue(Movie.class);
+                        titleView.setText(movie.getName());
+                        genreView.setText(movie.getGenre());
+                        yearView.setText(movie.getYear());
+                        synopsisView.setText(movie.getSynopsis());
+                        actorid = movie.getActor();
+                        directorid = movie.getDirector();
+                    }
                 }
 
                 @Override
@@ -264,6 +266,7 @@ public class MovieEdit extends AppCompatActivity implements NavigationView.OnNav
                 Intent intent = new Intent(view.getContext(), Movies.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                MovieEdit.this.finish();
             }
         });
     }
