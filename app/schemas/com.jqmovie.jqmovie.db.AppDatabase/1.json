@@ -1,0 +1,198 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "9236463bdd2625ed43cf8336186a0050",
+    "entities": [
+      {
+        "tableName": "ACTORS",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`actorid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `firstname` TEXT, `lastname` TEXT, `birthdate` TEXT, `biography` TEXT, `picture` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "actorid",
+            "columnName": "actorid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstname",
+            "columnName": "firstname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastname",
+            "columnName": "lastname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthdate",
+            "columnName": "birthdate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography",
+            "columnName": "biography",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "picture",
+            "columnName": "picture",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "actorid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "DIRECTORS",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`directorid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `firstname` TEXT, `lastname` TEXT, `birthdate` TEXT, `biography` TEXT, `picture` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "directorid",
+            "columnName": "directorid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstname",
+            "columnName": "firstname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastname",
+            "columnName": "lastname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthdate",
+            "columnName": "birthdate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biography",
+            "columnName": "biography",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "picture",
+            "columnName": "picture",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "directorid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MOVIES",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `year` TEXT, `genre` TEXT, `synopsis` TEXT, `picture` INTEGER NOT NULL, `directorid` INTEGER NOT NULL, `actorid` INTEGER NOT NULL, FOREIGN KEY(`directorid`) REFERENCES `DIRECTORS`(`directorid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`actorid`) REFERENCES `ACTORS`(`actorid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "movieid",
+            "columnName": "movieid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "genre",
+            "columnName": "genre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synopsis",
+            "columnName": "synopsis",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "picture",
+            "columnName": "picture",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "directorid",
+            "columnName": "directorid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actorid",
+            "columnName": "actorid",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "movieid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "DIRECTORS",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "directorid"
+            ],
+            "referencedColumns": [
+              "directorid"
+            ]
+          },
+          {
+            "table": "ACTORS",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "actorid"
+            ],
+            "referencedColumns": [
+              "actorid"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9236463bdd2625ed43cf8336186a0050\")"
+    ]
+  }
+}
